@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import { useDispatch } from 'react-redux';
+import { login } from '../../../services/operations/authAPI';
 
 
 const LoginFormTemplate = () => {
@@ -13,6 +14,7 @@ const LoginFormTemplate = () => {
     const onSubmit = (data) => {
         data.navigate = navigate;
         console.log(data);
+        dispatch(login(data))
     };
 
   return (

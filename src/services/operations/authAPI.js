@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { setLoading} from "../../slices/authSlice.js"
+import { setLoading, setToken} from "../../slices/authSlice.js"
 import { apiConnector } from "../apiconnector.js"
 import { authEndpoints } from "../apis.js";
 
@@ -19,8 +19,10 @@ export function login({email, password, navigate}){
 
             if(!response.data.success) throw new Error(response.data.message);
 
-            navigate("/admin/dashboard");
-
+            toast.success("Login Successfull")
+            dispatch(setToken(response.data.token))
+            localStorage.setItem("token", JSON.stringify(response.data.token));
+            navigate("/");
 
         } catch (err) {
                    toast.error(err)
@@ -28,3 +30,15 @@ export function login({email, password, navigate}){
             dispatch(setLoading(false))
             }
         }       
+
+        
+export function logout(navigate){
+    return (dispatch) => {
+        const toastId = toast.loading("Logging Out...")
+        dispatch(setToken(null))
+        localStorage.clear()
+        toast.success("Logged Out")
+        toast.dismiss(toastId)
+        navigate("/")
+    }
+}

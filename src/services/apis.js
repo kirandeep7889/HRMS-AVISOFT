@@ -1,7 +1,7 @@
-const BASE_URL = "http://localhost:3000/api/v1"
+const BASE_URL = "http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1"
 
 
 //Auth ENDPOINTS
 export const authEndpoints = {
-    LOGIN_API : BASE_URL + "/auth/login",
+    LOGIN_API : BASE_URL + "/user/loginAsSuperAdmin",
 }
