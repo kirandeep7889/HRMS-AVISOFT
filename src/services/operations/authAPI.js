@@ -32,13 +32,13 @@ export function login({email, password, navigate}){
         }       
 
         
-export function logout(navigate){
-    return (dispatch) => {
-        const toastId = toast.loading("Logging Out...")
-        dispatch(setToken(null))
-        localStorage.clear()
-        toast.success("Logged Out")
-        toast.dismiss(toastId)
-        navigate("/")
-    }
-}
+// export function logout(navigate){
+//     return (dispatch) => {
+//         const toastId = toast.loading("Logging Out...")
+//         dispatch(setToken(null))
+//         localStorage.clear()
+//         toast.success("Logged Out")
+//         toast.dismiss(toastId)
+//         navigate("/")
+//     }
+// }
