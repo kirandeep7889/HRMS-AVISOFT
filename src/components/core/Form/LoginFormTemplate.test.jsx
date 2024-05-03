@@ -1,10 +1,9 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import LoginFormTemplate from "./LoginFormTemplate";
 import React from "react";
 import { store } from "../../../store/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
 describe('Login Components', () => {
   test('render the main heading with proper text content', () => {
@@ -48,6 +47,8 @@ describe('Login Components', () => {
     expect(passwordInput).toBeInTheDocument();
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
+
+
   
 test('renders "Forgot Password?" link', () => {
   renderWithContext(<LoginFormTemplate />);

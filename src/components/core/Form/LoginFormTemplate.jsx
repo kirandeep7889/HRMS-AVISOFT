@@ -6,14 +6,12 @@ import { login } from '../../../services/operations/authAPI';
 
 
 const LoginFormTemplate = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm(); // Destructure errors from formState
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        // Check if password field is empty and set error if it is
         if (!data.password) {
-            // You can set an error message for the password field here
             return;
         }
         data.navigate = navigate;
@@ -40,7 +38,7 @@ const LoginFormTemplate = () => {
                 Sign in to your account
                 </h1>
 
-                <form onSubmit={handleSubmit(onSubmit)} action="#">
+                <form  data-testid="login-form" onSubmit={handleSubmit(onSubmit)} action="#">
                     <label data-testid="email-label" className="w-full">
                        <p className="text-[0.875rem]  text-richblack-900 mb-1 leading-[1.375rem]">Email Address<sup className="text-pink-200">*</sup></p>
                        <input type="email" name="Email" id="Email" {...register("email")} className="bg-white  text-richblack-800 rounded-[0.5rem] w-full 
@@ -57,12 +55,12 @@ const LoginFormTemplate = () => {
                                     type='password'
                                     name="password"
                                     id="password"
+                                    required
                                     {...register("password", { required: true })}
-                                    className={`bg-white rounded-[0.5rem] text-richblack-800 w-full p-[12px] pr-[36px] border-b-[1px] border-richblack-100 ${errors.password ? 'border-red-500' : ''}`} 
+                                    className={`bg-white rounded-[0.5rem] text-richblack-800 w-full p-[12px] pr-[36px] border-b-[1px] border-richblack-100 `} 
                                     placeholder='Enter Password'
                                 />
                             </div>
-                            {errors.password && <p className="text-red-500 text-xs mt-1">Password is required</p>}
                             <div className=' flex items-center justify-end mt-2'>
                                 <Link data-testid='forgot-password-link' to="/forgot-password">
                                     <p className="text-xs font-medium mt-1 text-richblack-800 max-w-max ml-auto italic hover:underline">Forgot Password?</p>
