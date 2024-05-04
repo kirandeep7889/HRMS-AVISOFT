@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import { setLoading, setToken} from "../../slices/authSlice.js"
 import { apiConnector } from "../apiconnector.js"
 import { authEndpoints } from "../apis.js";
+import { setUser } from "../../slices/profileSlice.js";
 
 
 const {
@@ -14,12 +15,16 @@ export function login({ email, password, navigate }) {
         const response = await apiConnector("POST", LOGIN_API, {
             email, password
         })
+        console.log(response)
         if (!response.data.token) {
           throw new Error("Token not found in response");
         }
   
         toast.success("Login Successful");
         dispatch(setToken(response.data.token));
+        const userImage = response.data.profileImage ? response.data.profileImage :  `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
+        dispatch(setUser({...response.data,image:userImage}));
+        localStorage.setItem("user", JSON.stringify({...response.data,image:userImage}))
         localStorage.setItem("AccessToken", JSON.stringify(response.data.token));
         navigate("/");
   

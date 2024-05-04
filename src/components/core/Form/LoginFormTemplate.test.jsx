@@ -1,6 +1,5 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react"; // Import act from "@testing-library/react"
 import LoginFormTemplate from "./LoginFormTemplate";
-import React from "react";
 import { store } from "../../../store/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -48,30 +47,27 @@ describe('Login Components', () => {
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
 
+  test('renders "Forgot Password?" link', () => {
+    renderWithContext(<LoginFormTemplate />);
+    const forgotPasswordLink = screen.getByTestId('forgot-password-link');
+    expect(forgotPasswordLink).toBeInTheDocument();
+  });
 
-  
-test('renders "Forgot Password?" link', () => {
-  renderWithContext(<LoginFormTemplate />);
-  const forgotPasswordLink = screen.getByTestId('forgot-password-link');
-  expect(forgotPasswordLink).toBeInTheDocument();
-});
-
-test('renders submit button', () => {
-  renderWithContext(<LoginFormTemplate />);
-  const submitButton = screen.getByTestId('submit-button');
-  expect(submitButton).toBeInTheDocument();
-  expect(submitButton).toHaveTextContent('Sign In');
-});
+  test('renders submit button', () => {
+    renderWithContext(<LoginFormTemplate />);
+    const submitButton = screen.getByTestId('submit-button');
+    expect(submitButton).toBeInTheDocument();
+    expect(submitButton).toHaveTextContent('Sign In');
+  });
 });
 
 
 function renderWithContext(element) {
-    render(
-        <BrowserRouter>
-            <Provider store={store}>
-                {element}
-            </Provider>
-        </BrowserRouter>
-
-    );
+  render(
+    <BrowserRouter>
+      <Provider store={store}>
+        {element}
+      </Provider>
+    </BrowserRouter>
+  );
 }
