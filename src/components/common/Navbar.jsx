@@ -4,11 +4,10 @@ import LogBtn from '../core/Navbar/LogBtn';
 import { NavbarLinks } from '../../data/NavbarLinks';
 import { useSelector } from 'react-redux';
 import ProfileDropDown from '../core/Navbar/ProfileDropDown';
-import Logo from '../../assets/Images/logo.svg'
 
 const NavBar = () => {
   const location=useLocation();
-  const {token} = useSelector((state) => state.auth);
+  const {AccessToken} = useSelector((state) => state.auth);
 
 
   const matchRoute = (route) => {
@@ -21,7 +20,7 @@ const NavBar = () => {
     <div className='flex h-30 items-center justify-between '>
         <div className='m-2'>
           <Link to="/">
-             <img data-testid="logo" src={Logo}/>
+             <img  src='https://avisoft.io/logo.svg'/>
           </Link>
         </div>
         <ul className='flex items-center gap-x-6 '>
@@ -30,7 +29,7 @@ const NavBar = () => {
                 return (
                   <li key={index}>
                     <Link to={link?.path}>
-                        <p className={`${matchRoute(link?.path) ? "font-bold underline text-red-600" :  ""}`}>
+                        <p className={`${matchRoute(link?.path) ? "font-bold underline" :  ""}`}>
                                 {link.title}
                         </p>
                      </Link>
@@ -41,16 +40,15 @@ const NavBar = () => {
         </ul>
         <div className='ml-10'>
         {
-                        token === null && (
-                            <div className=' flex gap-x-4'>
+                        AccessToken === null && (
+                            <div className=' flex gap-x-4 mr-20'>
                                 <LogBtn link={"/login"} text={"Log In"}/>
                             </div>
                         )
                     } 
-                        <div data-testid="profile-dropdown">
-                       { token !== null && <ProfileDropDown/> }
-                        </div>
-                     
+                    {
+                        AccessToken !== null && <ProfileDropDown/>
+                    }     
         </div>
     </div>
     </div>
