@@ -26,7 +26,7 @@ export default function SidebarLink({ link }) {
                     <span className='text-lg text-gray-600 mt-3'>{link.label}</span>
                 </div>
                 {link.children && (
-                    <Icons.VscChevronRight className={`text-gray-500 ml-auto text-xl mt-3 ${showChildren ? 'transform rotate-90' : ''}`} />
+                    <Icons.VscChevronRight data-testid="chevron-icon" className={`text-gray-500 ml-auto text-xl mt-3 ${showChildren ? 'transform rotate-90' : ''}`} />
                 )}
             </div>
             {showChildren && link.children && (

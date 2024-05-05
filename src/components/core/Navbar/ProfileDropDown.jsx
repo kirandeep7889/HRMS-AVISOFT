@@ -22,7 +22,7 @@ const ProfileDropDown = () => {
         console.log(user)
 
   return (
-    <div className='ml-10 hover:cursor-pointer mr-10 p-2'>
+    <div  className='ml-10 hover:cursor-pointer mr-10 p-2'>
     <div className='relative flex items-center gap-x-2' onClick={()=>setOpen(true)}>
         <div className="mt-2">
         <img className='rounded-full aspect-square w-[30px] h-[30px] object-cover' src={user?.image} alt={`${user.firstName}`}/>
