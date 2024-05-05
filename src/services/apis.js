@@ -5,3 +5,9 @@ const BASE_URL = "http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1
 export const authEndpoints = {
     LOGIN_API : BASE_URL + "/user/loginAsSuperAdmin",
 }
+
+
+//Employee ENDPOINTS
+export const employeeEndpoints = {
+    ADD_EMPLOYEE_API : BASE_URL + "/user/saveUser",
+}

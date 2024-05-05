@@ -5,11 +5,11 @@ import Login from './pages/Login';
 import NavBar from './components/common/Navbar';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/core/auth/PrivateRoute';
-import OpenRoute from './components/core/auth/OpenRoute';
+import CreateEmployee from './components/core/dashboard/AdminPanel/Employee/CreateEmployee';
 
 function App() {
   return (
-    <div className='w-screen h-screen flex flex-col font-inter'>
+    <div className='flex flex-col font-inter'>
       <NavBar/>
       <div>
         <Routes>
@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>}>
             <>
               <Route path='/employee/employee-list' />
-              <Route path='/employee/employee-create-update' />
+              <Route path='/employee/create-Employee' element={<CreateEmployee/>} />
               <Route path='/employee/upload-profileImage/:employeeId' />
             </>
           </Route>

@@ -74,7 +74,7 @@ console.log(user?.roles[0].role)
           {
             key: "NewEmployee",
             label: t("New Employee"),
-            url: "/employee/employee-create-update",
+            url: "/employee/create-Employee",
             parentKey: "Employee",
             icon: (
               <AiOutlineUserAdd size={16} className="side-bar-subitem-icon" />
