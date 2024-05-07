@@ -24,7 +24,7 @@ export function login({ email, password, navigate }) {
         dispatch(setToken(response.data.token));
         const userImage = response.data.profileImage ? response.data.profileImage :  `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
         dispatch(setUser({...response.data,image:userImage}));
-        localStorage.setItem("user", JSON.stringify({...response.data,image:userImage}))
+        localStorage.setItem("user", JSON.stringify(response.data))
         localStorage.setItem("AccessToken", JSON.stringify(response.data.token));
       } catch (err) {
         toast.error(err?.response?.data?.message)
