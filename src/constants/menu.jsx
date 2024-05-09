@@ -16,7 +16,7 @@ const MenuItems = () => {
 console.log(user)
 console.log(user?.roles[0].role)
 
-   if (AccessToken && user?.roles[0].role === "super_admin") {
+   if (AccessToken && user?.roles[0].role === "Superadmin") {
     return [
       { key: "navigation", label: t("SUPER ADMIN PANEL"), isTitle: true },
       {

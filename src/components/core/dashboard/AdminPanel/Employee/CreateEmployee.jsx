@@ -47,18 +47,19 @@ const CreateEmployee = () => {
                 <input className="bg-richblack-800 rounded-[0.5rem]  w-full p-[12px] border-b-[1px] border-slate-800" required type="text" name="lastName" {...register("lastName")} placeholder="Enter Your Last Name" data-testid="last-name-input" />
             </label>
           </div>
-          <div className="mt-4">
-                <label htmlFor="email" className="block text-sm font-semibold text-slate-900">
-                  Email Address<sup className="text-red-900">*</sup>
-                </label>
-                <input
-                  id="email"
-                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-                  className="border border-slate-300 rounded px-3 py-2 mt-2 w-full"
-                  placeholder="Enter Your Email Address"
-                  data-testid="email-input" // Unique test ID for email input
-                />
-                {errors.email && <span className="text-red-500" data-testid="email-error">Please enter a valid email address</span>}
+          <div className="grid grid-cols-2 gap-4">
+              <div className='mt-4'>
+                  <label htmlFor="email" className="block text-sm font-semibold text-slate-900">
+                      Email Address<sup className="text-red-900">*</sup>
+                    </label>
+                    <input
+                      id="email"
+                      {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                      className="border border-slate-300 rounded px-3 py-2 mt-2 w-full"
+                      placeholder="Enter Your Email Address"
+                      data-testid="email-input"
+                    />
+                    {errors.email && <span className="text-red-500" data-testid="email-error">Please enter a valid email address</span>}
               </div>
               <div className="mt-4">
                 <label htmlFor="password" className="block text-sm font-semibold text-slate-900">
@@ -70,10 +71,11 @@ const CreateEmployee = () => {
                   type="password"
                   className="border border-slate-300 rounded px-3 py-2 mt-2 w-full"
                   placeholder="Enter Your Password"
-                  data-testid="password-input" // Unique test ID for password input
+                  data-testid="password-input" 
                 />
                 {errors.password && errors.password.type === "required" && <span className="text-red-500" data-testid="password-required-error">Password is required</span>}
                 {errors.password && errors.password.type === "minLength" && <span className="text-red-500" data-testid="password-length-error">Password must have at least 6 characters</span>}
+              </div>
           </div>
           <div className='grid grid-cols-2 gap-4'>
                 <div className="mt-4">

@@ -7,7 +7,7 @@ import ProfileDropDown from '../core/Navbar/ProfileDropDown';
 
 const NavBar = () => {
   const location = useLocation();
-  const { AccessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
@@ -35,14 +35,14 @@ const NavBar = () => {
           })}
         </ul>
         <div className='ml-10'>
-          {AccessToken === null && (
+          { token === null && (
             <div className='flex gap-x-4 mr-20'>
               <LogBtn link='/login' text='Log In' />
             </div>
           )}
           
             <div data-testid='profile-dropdown'>
-            {AccessToken !== null &&  <ProfileDropDown /> }
+            {token !== null &&  <ProfileDropDown /> }
             </div>
           
         </div>
