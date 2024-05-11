@@ -8,19 +8,19 @@ import EmployeeList from './components/core/dashboard/AdminPanel/Employee/Employ
 // import UploadEmployeeImage from './components/core/dashboard/AdminPanel/Employee/UploadEmployeeImage'
 import PrivateRoute from './components/core/auth/PrivateRoute'
 import CreateEmployee from './components/core/dashboard/AdminPanel/Employee/CreateEmployee'
+import EmployeeInfo from './pages/EmployeeInfo'
 
 function App() {
    
   return (
-    <div className=' flex flex-col h-screen  bg-slate-200'>
+    <div className=' flex flex-col   bg-slate-200'>
       <NavBar/>
       <div>
         <Routes>
+        <Route path="/employee-info/:employeeName" element={<PrivateRoute><EmployeeInfo/></PrivateRoute>}/>
           <Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>}>
               <Route  path='/employee/employee-list' element={<EmployeeList/>} />
               <Route  path='/employee/create-Employee' element={<CreateEmployee/>} />
-              {/* <Route  path='employee/upload-profileImage/:employeeId' element={<UploadEmployeeImage/>} /> */}
-
           </Route>
           <Route path='/login' element={<Login/>}/>
         </Routes>
