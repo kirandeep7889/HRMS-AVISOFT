@@ -12,12 +12,12 @@ import ExportDataJSON from '../../../../../utils/ExportFromJson';
 const EmployeeList = () => {
     const dispatch = useDispatch();
     const [employees, setEmployees] = useState([{
-            avatar: 'mock_avatar_url',
-            name: 'kirandeep singh',
-            email: 'kirandeep@gmail.com',
-            empId: '1',
-            role: 'Employee',
-            address: 'Jammu'
+            // avatar: 'mock_avatar_url',
+            // name: 'kirandeep singh',
+            // email: 'kirandeep@gmail.com',
+            // empId: '1',
+            // role: 'Employee',
+            // address: 'Jammu'
     }]);
 
     useEffect(() => {
@@ -33,6 +33,7 @@ const EmployeeList = () => {
         fetchEmployeesList();
     }, []);
 
+    console.log(employees)
     return (
         <div className='pb-9 bg-slate-100 rounded'>
             {/* section 1 */}

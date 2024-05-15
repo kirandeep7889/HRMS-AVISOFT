@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   employees: [],
   loading: false,
+  step : 1,
 };
 
 const employeeSlice = createSlice({
   name: 'employee',
   initialState: initialState,
   reducers: {
+    setStep(state, value) {
+      state.step = value.payload
+  },
     addEmployees(state, action) {
       state.employees.push(action.payload);
     },
@@ -19,6 +23,7 @@ const employeeSlice = createSlice({
         state.employees[index] = { ...state.employees[index], ...updatedEmployeeData };
       }
     },
+
     deleteEmployee(state, action) {
       const idToDelete = action.payload;
       state.employees = state.employees.filter(emp => emp.id !== idToDelete);
@@ -29,5 +34,5 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { addEmployees, updateEmployee, deleteEmployee, setLoading } = employeeSlice.actions;
+export const { addEmployees,setStep, updateEmployee, deleteEmployee, setLoading } = employeeSlice.actions;
 export default employeeSlice.reducer;

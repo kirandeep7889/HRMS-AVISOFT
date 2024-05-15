@@ -11,19 +11,19 @@ const EmployeeBankInfo = ({user}) => {
     const bankDetails =[ 
         {
           name:'Bank Name',
-          value: user.account.bankName,
+          value: user?.account?.bankName,
         },
         {
         name:'Account Number',
-        value: user.account?.accountNumber,
+        value: user?.account?.accountNumber,
         },
         {
           name:'IFSC Code',
-          value: user.account?.ifsc,
+          value: user?.account?.ifsc,
         },
         {
           name:'Branch',
-          value: user.account?.branch,
+          value: user?.account?.branch,
         },
     ];
   return (
