@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { GrDocumentCsv } from "react-icons/gr";
 import { SiMicrosoftexcel } from "react-icons/si";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EmployeesList } from '../../../../../services/operations/employeeAPI';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -11,12 +11,19 @@ import ExportDataJSON from '../../../../../utils/ExportFromJson';
 
 const EmployeeList = () => {
     const dispatch = useDispatch();
-    const [employees, setEmployees] = useState([]);
+    const [employees, setEmployees] = useState([{
+            avatar: 'mock_avatar_url',
+            name: 'kirandeep singh',
+            email: 'kirandeep@gmail.com',
+            empId: '1',
+            role: 'Employee',
+            address: 'Jammu'
+    }]);
 
     useEffect(() => {
         const fetchEmployeesList = async () => {
             try {
-                const res = await dispatch(EmployeesList());
+                const res = await dispatch(EmployeesList(AccessToken));
                 setEmployees(res.data); 
             } catch (error) {
                 console.error("Error fetching employees", error);
