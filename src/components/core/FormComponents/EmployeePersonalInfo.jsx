@@ -62,7 +62,7 @@ console.log(departments)
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-4">
                             <label htmlFor="departmentId" className="block text-sm font-semibold text-slate-900">Department<sup className="text-red-900">*</sup></label>
-                            <select id="departmentId" {...register("departmentId")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="department-select">
+                            <select   required id="departmentId" {...register("departmentId")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="department-select">
                                 {departments.map((department) => (
                                     <option key={department?.departmentId} value={department?.departmentId}>{department?.department}</option>
                                 ))}
@@ -70,7 +70,7 @@ console.log(departments)
                         </div>
                         <div className="mt-4">
                             <label htmlFor="position" className="block text-sm font-semibold text-slate-900">Position<sup className="text-red-900">*</sup></label>
-                            <select id="position" {...register("position")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="position-select">
+                            <select required id="position" {...register("position")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="position-select">
                                 <option value="DEVELOPER">Developer</option>
                                 <option value="TESTER">Tester</option>
                                 <option value="HR">HR</option>
@@ -79,8 +79,9 @@ console.log(departments)
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-4">
+                            
                             <label htmlFor="joinDate" className="block text-sm font-semibold text-slate-900">Join Date<sup className="text-red-900">*</sup></label>
-                            <input id="joinDate" {...register("joinDate")} type="date" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="join-date-input" />
+                            <input id="joinDate" required {...register("joinDate")} type="date" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="join-date-input" />
                         </div>
                         <div className="mt-4">
                             <label htmlFor="gender" className="block text-sm font-semibold text-slate-900">Gender<sup className="text-red-900">*</sup></label>
@@ -98,33 +99,33 @@ console.log(departments)
                         </div>
                         <div className="mt-4">
                             <label htmlFor="contact" className="block text-sm font-semibold text-slate-900">Mobile Number<sup className="text-red-900">*</sup></label>
-                            <input id="contact" {...register("contact")} type="tel" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your Mobile Number" data-testid="mobile-input" />
+                            <input required id="contact" {...register("contact")} type="tel" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your Mobile Number" data-testid="mobile-input" />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-4">
                             <label htmlFor="panNumber" className="block text-sm font-semibold text-slate-900">PAN Number<sup className="text-red-900">*</sup></label>
-                            <input id="panNumber" {...register("panNumber")} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your PAN Number" data-testid="pan-input" />
+                            <input required id="panNumber" {...register("panNumber")} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your PAN Number" data-testid="pan-input" />
                         </div>
                         <div className="mt-4">
                             <label htmlFor="adhaarNumber" className="block text-sm font-semibold text-slate-900">Aadhar Number<sup className="text-red-900">*</sup></label>
-                            <input id="adhaarNumber" {...register("adhaarNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your Aadhar Number" data-testid="aadhar-input" />
+                            <input required id="adhaarNumber" {...register("adhaarNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your Aadhar Number" data-testid="aadhar-input" />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                             <div className="mt-4">
                                 <label htmlFor="uanNumber" className="block text-sm font-semibold text-slate-900">UAN Number<sup className="text-red-900">*</sup></label>
-                                <input id="uanNumber" {...register("uanNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your UAN Number" data-testid="uan-input" />
+                                <input required id="uanNumber" {...register("uanNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your UAN Number" data-testid="uan-input" />
                             </div>
                             <div className="mt-4">
                                 <label htmlFor="salary" className="block text-sm font-semibold text-slate-900">Salary<sup className="text-red-900">*</sup></label>
-                                <input id="salary" {...register("salary")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter The Salary" data-testid="salary-input" />
+                                <input required id="salary" {...register("salary")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter The Salary" data-testid="salary-input" />
                             </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="mt-4">
                             <label htmlFor="employeeCode" className="block text-sm font-semibold text-slate-900">Employee Code<sup className="text-red-900">*</sup></label>
-                            <input id="employeeCode" {...register("employeeCode")} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Employee Code" data-testid="employee-code-input" />
+                            <input required id="employeeCode" {...register("employeeCode")} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Employee Code" data-testid="employee-code-input" />
                         </div>
                     </div>
                     <div className='flex  items-center gap-x-3 mt-5'>

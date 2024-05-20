@@ -47,9 +47,10 @@ const LoginFormTemplate = () => {
                                 name="role"
                                 className="mt-1 block w-full py-2 px-3 border border-richblack-100 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 value={selectedRole}
-                                onChange={(e) => setSelectedRole(e.target.value)}
+                                onChange={(e) => setSelectedRole(e.target.value)} 
                                 data-testid="role-select" 
                             >
+                                <option value="">Select Role</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Superadmin">Super Admin</option>
                                 <option value="Employee">Employee</option>

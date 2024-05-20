@@ -9,6 +9,8 @@ import EmployeeList from './components/core/dashboard/AdminPanel/Employee/Employ
 import PrivateRoute from './components/core/auth/PrivateRoute'
 import CreateEmployee from './components/core/dashboard/AdminPanel/Employee/CreateEmployee'
 import EmployeeInfo from './pages/EmployeeInfo'
+import CreateUpdateDepartment from './components/core/dashboard/AdminPanel/Department/createUpdateDepartment'
+import DepartmentList from './components/core/dashboard/AdminPanel/Department/DepartmentList'
 
 function App() {
    
@@ -21,6 +23,8 @@ function App() {
           <Route path="/" element={<PrivateRoute><Dashboard/></PrivateRoute>}>
               <Route  path='/employee/employee-list' element={<EmployeeList/>} />
               <Route  path='/employee/create-Employee' element={<CreateEmployee/>} />
+              <Route  path='/department/department-create-update' element={<CreateUpdateDepartment/>} />
+              <Route  path='/department/department-list' element={<DepartmentList/>} />
           </Route>
           <Route path='/login' element={<Login/>}/>
         </Routes>

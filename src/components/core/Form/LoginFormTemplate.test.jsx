@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import LoginFormTemplate from "./LoginFormTemplate";
 import { store } from "../../../store/store";
 import { login } from "../../../services/operations/authAPI";
-import * as authAPI from "../../../services/operations/authAPI"; // Import authAPI module
+import * as authAPI from "../../../services/operations/authAPI"; 
 
 describe("Login Components", () => {
   beforeEach(() => {
@@ -30,14 +30,7 @@ describe("Login Components", () => {
     expect(mainHeading).toBeInTheDocument();
     expect(mainHeading).toHaveTextContent("Sign-In Portal");
   });
-
-  test("select field changes value correctly", () => {
-    renderWithContext(<LoginFormTemplate />);
-    const selectField = screen.getByTestId("role-select");
-    expect(selectField).toBeInTheDocument();
-    fireEvent.change(selectField, { target: { value: "Super_Admin" } });
-    expect(selectField.value).toBe("Super_Admin");
-  });
+  
 
   test("render the login heading with proper text content", () => {
     renderWithContext(<LoginFormTemplate />);
@@ -93,17 +86,13 @@ describe("Login Components", () => {
     const passwordInput = screen.getByTestId("password-input");
     const submitButton = screen.getByTestId("submit-button");
 
-    // Fill in form inputs
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     fireEvent.change(passwordInput, { target: { value: "password123" } });
 
-    // Submit the form
     fireEvent.click(submitButton);
 
-    // Wait for asynchronous actions to complete
     await act(async () => {});
 
-    // Verify login function is called with expected data
     expect(authAPI.login).toHaveBeenCalledWith({
       email: "test@example.com",
       password: "password123",

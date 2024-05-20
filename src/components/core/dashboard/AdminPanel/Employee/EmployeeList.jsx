@@ -11,14 +11,7 @@ import ExportDataJSON from '../../../../../utils/ExportFromJson';
 
 const EmployeeList = () => {
     const dispatch = useDispatch();
-    const [employees, setEmployees] = useState([{
-            // avatar: 'mock_avatar_url',
-            // name: 'kirandeep singh',
-            // email: 'kirandeep@gmail.com',
-            // empId: '1',
-            // role: 'Employee',
-            // address: 'Jammu'
-    }]);
+    const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
         const fetchEmployeesList = async () => {
@@ -26,16 +19,16 @@ const EmployeeList = () => {
                 const res = await dispatch(EmployeesList());
                 setEmployees(res.data); 
             } catch (error) {
-                // Handle error
+                console.error("Error fetching employees", error);
             }
         };
   
         fetchEmployeesList();
-    }, []);
+    }, [dispatch]);
 
-    console.log(employees)
+    console.log(employees);
     return (
-        <div className='pb-9 bg-slate-100 rounded'>
+        <div className='pb-9 bg-slate-100 rounded h-screen'>
             {/* section 1 */}
             <div className='p-5'>
                 <p className='text-slate-950 text-xl left-6 font-semibold'>Home / Dashboard /  
@@ -46,7 +39,7 @@ const EmployeeList = () => {
             <div className='m-5 flex items-center justify-between rounded p-5'>
                 <div className='flex items-center text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg'>
                     <span><HiOutlinePlusCircle/></span>
-                    <button><Link to="/employee/employee-create-update">New Employee</Link></button>
+                    <button><Link to="/employee/create-Employee">New Employee</Link></button>
                 </div>
                 <div className='flex items-center gap-x-7'>
                     <div className='gap-x-2 bg-slate-200 p-2 rounded-md'>
@@ -98,8 +91,8 @@ const EmployeeList = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {employees.map((employee) => (
-                                    <tr key={employee.empId} className="bg-white text-black">
+                                {employees.map((employee, index) => (
+                                    <tr key={employee.empId} className={index % 2 === 0 ? 'bg-white text-black' : 'bg-gray-100 text-black'}>
                                         <td scope="row" className="px-6 py-4 w-10">
                                             <div className='flex justify-start'>
                                                 <img className='rounded-full aspect-square w-[30px] h-[30px] object-cover' src={employee.avatar} alt={`${employee.name}`}/>

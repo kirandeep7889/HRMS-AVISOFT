@@ -49,13 +49,11 @@ const EmployeeAdditionalDetails = () => {
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-2">
                             <label htmlFor="contact" className="block text-sm font-semibold text-slate-900">Contact<sup className="text-red-900">*</sup></label>
-                            <input id="contact" {...registerEmergency("contact", { required: true })} type="tel" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Contact Number" data-testid="contact-input" />
-                            {errorsEmergency.contact && <span className="text-red-600">Contact is required</span>}
+                            <input required id="contact" {...registerEmergency("contact", { required: true })} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Contact Number" data-testid="contact-input" />
                         </div>
                         <div className="mt-2">
                             <label htmlFor="relationship" className="block text-sm font-semibold text-slate-900">Relationship<sup className="text-red-900">*</sup></label>
-                            <input id="relationship" {...registerEmergency("relationship", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Relationship Detail.." data-testid="relationship-input" />
-                            {errorsEmergency.relationship && <span className="text-red-600">Relationship is required</span>}
+                            <input required id="relationship" {...registerEmergency("relationship", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Relationship Detail.." data-testid="relationship-input" />
                         </div>
                     </div>
                     <div className='flex  items-center gap-x-3 mt-4'>
@@ -81,36 +79,30 @@ const EmployeeAdditionalDetails = () => {
                                     <option key={index} value={type}>{type}</option>
                                 ))}
                             </select>
-                            {errorsAddress.addressType && <span className="text-red-600">Address Type is required</span>}
                         </div>
                         <div className="mt-2">
                             <label htmlFor="propertyNumber" className="block text-sm font-semibold text-slate-900">Property Number<sup className="text-red-900">*</sup></label>
-                            <input id="propertyNumber" {...registerAddress("propertyNumber", { required: true })} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Property Number" />
-                            {errorsAddress.propertyNumber && <span className="text-red-600">Property Number is required</span>}
+                            <input  required id="propertyNumber" {...registerAddress("propertyNumber", { required: true })} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Property Number" />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-2">
                             <label htmlFor="city" className="block text-sm font-semibold text-slate-900">City<sup className="text-red-900">*</sup></label>
-                            <input id="city" {...registerAddress("city", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter City" />
-                            {errorsAddress.city && <span className="text-red-600">City is required</span>}
+                            <input  required id="city" {...registerAddress("city", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter City" />
                         </div>
                         <div className="mt-2">
                             <label htmlFor="zipCode" className="block text-sm font-semibold text-slate-900">Zip Code<sup className="text-red-900">*</sup></label>
-                            <input id="zipCode" {...registerAddress("zipCode", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Zip Code" />
-                            {errorsAddress.zipCode && <span className="text-red-600">Zip Code is required</span>}
+                            <input  required id="zipCode" {...registerAddress("zipCode", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Zip Code" />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-2">
                             <label htmlFor="state" className="block text-sm font-semibold text-slate-900">State<sup className="text-red-900">*</sup></label>
-                            <input id="state" {...registerAddress("state", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter State" />
-                            {errorsAddress.state && <span className="text-red-600">State is required</span>}
+                            <input  required id="state" {...registerAddress("state", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter State" />
                         </div>
                         <div className="mt-2">
                             <label htmlFor="country" className="block text-sm font-semibold text-slate-900">Country<sup className="text-red-900">*</sup></label>
-                            <input id="country" {...registerAddress("country", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Country" />
-                            {errorsAddress.country && <span className="text-red-600">Country is required</span>}
+                            <input  required id="country" {...registerAddress("country", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Country" />
                         </div>
                     </div>
                     <div className='flex  items-center gap-x-3 mt-4'>
@@ -126,33 +118,29 @@ const EmployeeAdditionalDetails = () => {
           <div>
             <h2 className='text-lg text-center text-slate-600 font-semibold'>Employee Bank Details<sup className="text-red-900 font-extrabold">*</sup></h2>
             <div className="p-5">
-                <form onSubmit={handleSubmitBank(onSubmitBank)}>
+                <form data-testid="bank-details-form" onSubmit={handleSubmitBank(onSubmitBank)}>
                     <div className="mt-2">
                         <label htmlFor="bankName" className="block text-sm font-semibold text-slate-900">Bank Name<sup className="text-red-900">*</sup></label>
-                        <select id="bankName" {...registerBank("bankName", { required: true })} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full">
+                        <select required id="bankName" {...registerBank("bankName", { required: true })} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full">
                             <option value="">Select Bank</option>
                             {bankNames.map((bank, index) => (
                                 <option key={index} value={bank}>{bank}</option>
                             ))}
                         </select>
-                        {errorsBank.bankName && <span className="text-red-600">Bank Name is required</span>}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="mt-2">
                             <label htmlFor="accountNumber" className="block text-sm font-semibold text-slate-900">Account Number<sup className="text-red-900">*</sup></label>
-                            <input id="accountNumber" {...registerBank("accountNumber", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Account Number" />
-                            {errorsBank.accountNumber && <span className="text-red-600">Account Number is required</span>}
+                            <input required id="accountNumber" {...registerBank("accountNumber", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Account Number" />
                         </div>
                         <div className="mt-2">
                             <label htmlFor="ifsc" className="block text-sm font-semibold text-slate-900">IFSC Code<sup className="text-red-900">*</sup></label>
-                            <input id="ifsc" {...registerBank("ifsc", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter IFSC Code" />
-                            {errorsBank.ifsc && <span className="text-red-600">IFSC Code is required</span>}
+                            <input required id="ifsc" {...registerBank("ifsc", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter IFSC Code" />
                         </div>
                     </div>
                     <div className="mt-2">
                         <label htmlFor="branch" className="block text-sm font-semibold text-slate-900">Branch<sup className="text-red-900">*</sup></label>
-                        <input id="branch" {...registerBank("branch", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Branch" />
-                        {errorsBank.branch && <span className="text-red-600">Branch is required</span>}
+                        <input required id="branch" {...registerBank("branch", { required: true })} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Branch" />
                     </div>
                     <div className='flex  items-center gap-x-3 mt-4'>
                         <button type="submit" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${

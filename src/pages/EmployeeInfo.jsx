@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
@@ -7,25 +6,32 @@ import EmployeePersonalInfo from '../components/core/EmployeeInfo/EmployeePerson
 import EmployeeAdditionalInfo from '../components/core/EmployeeInfo/EmployeeAdditionalInfo';
 import EmployeeBankInfo from '../components/core/EmployeeInfo/EmployeeBankInfo';
 import EmployeeAddressInfo from '../components/core/EmployeeInfo/EmployeeAddressInfo';
+import { useDispatch, useSelector } from 'react-redux';
+import { EmployeeSearch } from '../services/operations/employeeAPI';
 
 const EmployeeInfo = () => {
 const {employeeName}=useParams();
 const [userData, setUserData] = useState(null);
+const [loading,setLoading]=useState(false);
+const dispatch=useDispatch();
+const {AccessToken}=useSelector((state)=>state.auth);
 
 console.log(employeeName);
 
 useEffect(()=> {
   const fetchEmployee= async () => {
     try {
-        const res = await axios.get(`http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/employee/searchEmployee?name=${employeeName}`);
+        setLoading(true);
+        const res = await dispatch(EmployeeSearch(AccessToken,employeeName));
         console.log(res)
-        if(res.data.length==0) {
+        if(res?.data?.length==0) {
            toast.error("No employee with this name")
         }
         else{
         toast.success("Employee details retrieved Successfully")
-        console.log(res.data)
-        setUserData(res.data[0])
+        console.log(res)
+        setUserData(res?.data[0]);
+        setLoading(false);
         }
     } catch (error) {
        toast.error(error?.response?.data?.message)
@@ -39,8 +45,11 @@ console.log(userData)
 
   return (
     <div>
-   {  
-      !userData  ? <div><Spinner /></div>
+      {
+               loading &&   <div className=' absolute grid place-content-center h-screen w-screen'><Spinner/></div>
+      }
+      {  
+      !userData  ? <div data-testid="spinner"><Spinner /></div>
       :
       (
     <div className=''>

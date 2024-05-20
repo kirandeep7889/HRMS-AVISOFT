@@ -10,11 +10,7 @@ import EmployeeAdditionalDetails from './EmployeeAdditionalDetails'
 function RenderSteps() {
   const { step } = useSelector((state) => state.employee)
   const navigate = useNavigate()
-//   useEffect(() => {
-//     if(editCourse){
-//       navigate(`/dashboard/edit-course/${course._id}`)
-//     }
-//   }, [])
+
 
   const steps = [
     {

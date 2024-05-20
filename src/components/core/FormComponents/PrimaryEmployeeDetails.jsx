@@ -17,7 +17,6 @@ const PrimaryEmployeeDetails = () => {
     const onSubmit=async(data)=> {
         data.navigate = navigate;
         data.AccessToken=AccessToken
-        console.log(data);
         dispatch(addEmployee(data));
         // dispatch(setStep(2))
     }
@@ -31,12 +30,12 @@ const PrimaryEmployeeDetails = () => {
                 </label>
                 <input
                   id="email"
+                  required
                   {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                   className="border border-slate-300 rounded px-3 py-2 mt-2 w-full"
                   placeholder="Enter Your Email Address"
                   data-testid="email-input"
                 />
-                {errors.email && <span className="text-red-500" data-testid="email-error">Please enter a valid email address</span>}
               </div>
               <div className="mt-4">
                 <label htmlFor="password" className="block text-sm font-semibold text-slate-900">
@@ -44,14 +43,13 @@ const PrimaryEmployeeDetails = () => {
                 </label>
                 <input
                   id="password"
+                  required
                   {...register("password", { required: true, minLength: 6 })}
                   type="password"
                   className="border border-slate-300 rounded px-3 py-2 mt-2 w-full"
                   placeholder="Enter Your Password"
                   data-testid="password-input"
                 />
-                {errors.password && errors.password.type === "required" && <span className="text-red-500" data-testid="password-required-error">Password is required</span>}
-                {errors.password && errors.password.type === "minLength" && <span className="text-red-500" data-testid="password-length-error">Password must have at least 6 characters</span>}
           </div>
  
           <div className="mt-4">

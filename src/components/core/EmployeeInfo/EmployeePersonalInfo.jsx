@@ -47,6 +47,7 @@ function EmployeePersonalInfo({ user }) {
             <div className='flex items-center gap-x-3'>
               <button
                 type='submit'
+                data-testid="edit-button"
                 className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
                   loading ? 'bg-slate-900 text-white' : 'bg-yellow-500 text-black'
                 } py-1 px-5 flex items-center`}

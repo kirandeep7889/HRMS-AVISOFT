@@ -7,7 +7,8 @@ const {
   ,EMPLOYEE_LIST_API,
   UPLOAD_EMPLOYEE_IMAGE_API,
   ADD_EMPLOYEE_PERSONAL_DETAILS_API,
-  ADD_EMPLOYEE_EMERGENCY_CONTACT_API
+  ADD_EMPLOYEE_EMERGENCY_CONTACT_API,
+  EMPLOYEE_SEARCH_API
 }=employeeEndpoints;
 import { addEmployees, setStep } from "../../slices/employeeSlice.js";
 import axios from "axios";
@@ -31,7 +32,21 @@ export function addEmployee(employeeData) {
       dispatch(setLoading(false));
     };
   }
-
+  export function EmployeeSearch(AccessToken,employeeName) {
+    return async (dispatch) => {
+        try {
+          console.log(employeeName)
+            const response = await apiConnector(
+                "GET",
+                `${EMPLOYEE_SEARCH_API}?name=${employeeName}`,
+            );
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.error("Error uploading employee image:", error);
+        }
+    }
+}
 
   export function uploadEmployeeImage(employeeId,AccessToken, formData) {
     return async (dispatch) => {
@@ -42,7 +57,7 @@ export function addEmployee(employeeData) {
             console.log(formData);
             const response = await apiConnector(
                 "POST",
-                `http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/employee/${employeeId}/uploadImage`,formData,
+                `https://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/employee/${employeeId}/uploadImage`,formData,
                 {
                   headers: {
                   "Content-Type": "multipart/form-data",
@@ -69,7 +84,7 @@ export function addEmployeePersonalDetails(employeeId,data,AccessToken) {
           console.log(data)
           const response = await apiConnector(
                "POST",
-              `http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/employee/${employeeId}`,
+              `https://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/employee/${employeeId}`,
               data,
               {
                   headers: {
@@ -97,7 +112,7 @@ export function addEmployeeEmergencyContactDetails(employeeId,data,AccessToken) 
           console.log(data)
           const response = await apiConnector(
                "POST",
-               `http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/emergencyContact/employee/${employeeId}`, data,
+              `https://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/emergencyContact/employee/${employeeId}`, data,
               {
                   headers: {
                       "Content-Type": "multipart/form-data",
@@ -124,7 +139,7 @@ export function addEmployeeAddressDetails(employeeId,data,AccessToken) {
           console.log(data)
           const response = await apiConnector(
                "POST",
-               `http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/address/${employeeId}/addNewAddress`, data,
+               `https://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/${employeeId}/addNewAddress`, data,
               {
                   headers: {
                       "Content-Type": "multipart/form-data",
@@ -150,7 +165,7 @@ export function addEmployeeBankDetails(employeeId,data,AccessToken) {
           console.log(data)
           const response = await apiConnector(
                "POST",
-               `http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/account/${employeeId}/AddBankAccount`, data,
+               `https://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/account/${employeeId}/AddBankAccount`, data,
               {
                   headers: {
                       "Content-Type": "multipart/form-data",

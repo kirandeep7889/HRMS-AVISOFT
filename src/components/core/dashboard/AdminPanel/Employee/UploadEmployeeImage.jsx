@@ -48,7 +48,7 @@ const UploadEmployeeImage = () => {
             <div className='flex gap-5 w-full items-center justify-start rounded-lg'>
                 <img
                     src={selectedImage ? URL.createObjectURL(selectedImage) : defaultImage}
-                    alt={`profile-${user.firstName}`}
+                    alt={`profile-${user?.firstName}`}
                     className='aspect-square rounded-full object-cover h-20'
                 />
                 <div className='w-[80%] flex gap-4 flex-col'>
@@ -57,6 +57,7 @@ const UploadEmployeeImage = () => {
                         {!loading && (
                             <div>
                                 <input
+                                    data-testid='file-input'
                                     className='hidden'
                                     ref={inputRef}
                                     type='file'
@@ -79,8 +80,8 @@ const UploadEmployeeImage = () => {
                             onClick={handleSubmit}
                             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}
                         >
-                            <button type='submit' className='flex place-items-center gap-2' disabled={loading}>
-                                {loading ? <>Uploading...</> : <>Upload<FiUpload /></>}
+                            <button type='submit'  className='flex place-items-center gap-2' disabled={loading}>
+                                {loading ? <>Uploading...</> : <>Upload</>}
                             </button>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const NavBar = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { AccessToken } = useSelector((state) => state.auth);
   const { register, handleSubmit } = useForm();
   const [userData, setUserData] = useState(null);
   const navigate=useNavigate();
@@ -17,7 +17,6 @@ const NavBar = () => {
 
   const onSubmit = async (data) => {
     const searchQuery = data.searchQuery.trim();
-    console.log("Searching for:", data.searchQuery);
     try {
       if (searchQuery) {
         navigate(`/employee-info/${searchQuery}`);
@@ -26,7 +25,7 @@ const NavBar = () => {
         toast.error("Enter Valid search query")
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+        toast.error("Error fetching user data");
     }
   };
     console.log(userData)
@@ -54,12 +53,14 @@ const NavBar = () => {
         </form>
         <div>
           {
-            token === null ? (
-              <div className='flex gap-x-4 mr-10'>
+            AccessToken === null ? (
+              <div className='flex gap-x-4 mr-10'  >
                 <LogBtn link={"/login"} text={"Log In"} />
               </div>
             ) : (
-              <ProfileDropDown />
+              <div data-testid="profile-dropdown">
+                <ProfileDropDown />
+              </div>
             )
           }
         </div>

@@ -10,7 +10,7 @@ const authSlice = createSlice({
     initialState : initialState,
     reducers : {
         setToken(state, value){
-            state.token = value.payload
+            state.AccessToken = value.payload
         },
         setLoading(state, value){
             state.loading = value.payload

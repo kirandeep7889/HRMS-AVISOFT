@@ -22,12 +22,12 @@ export function login({ email, password,role, navigate }) {
         if (!response.data.success) {
           throw new Error("Token not found in response");
         }
-        toast.success(response.data.message);
-        dispatch(setToken(response.data.token));
+        toast.success(response?.data?.message);
+        dispatch(setToken(response?.data?.token));
         const userImage = response?.data?.loginUser?.profileImage ? response?.data?.loginUser?.profileImage :  `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.firstName} ${response.data.lastName}`
         dispatch(setUser({...response?.data?.loginUser,image:userImage}));
         localStorage.setItem("user", JSON.stringify(response?.data?.loginUser))
-        localStorage.setItem("AccessToken", JSON.stringify(response.data.token));
+        localStorage.setItem("AccessToken", JSON.stringify(response?.data?.token));
       } catch (err) {
         toast.error(err?.response?.data?.message)
         console.log(err);
