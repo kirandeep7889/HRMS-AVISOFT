@@ -26,7 +26,7 @@ export function addEmployee(employeeData) {
     };
   }
 
-  export function EmployeesList() {
+  export function EmployeesList(AccessToken) {
     return async(dispatch) => {
       try{
       dispatch(setLoading(true));

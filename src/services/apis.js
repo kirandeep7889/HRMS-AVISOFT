@@ -10,5 +10,5 @@ export const authEndpoints = {
 //Employee ENDPOINTS
 export const employeeEndpoints = {
     ADD_EMPLOYEE_API : BASE_URL + "/user/saveUser",
-    EMPLOYEE_LIST_API : BASE_URL + "/bulk"
+    EMPLOYEE_LIST_API : BASE_URL + "/employees/getAllEmployees"
 }
