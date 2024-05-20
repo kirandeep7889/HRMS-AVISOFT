@@ -8,34 +8,50 @@ import { EmployeesList } from '../../../../../services/operations/employeeAPI';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
 import ExportDataJSON from '../../../../../utils/ExportFromJson';
+import Spinner from '../../../../common/Spinner';
 
 const EmployeeList = () => {
     const dispatch = useDispatch();
-    const [employees, setEmployees] = useState([{
-            avatar: 'mock_avatar_url',
-            name: 'kirandeep singh',
-            email: 'kirandeep@gmail.com',
-            empId: '1',
-            role: 'Employee',
-            address: 'Jammu'
-    }]);
+    const { AccessToken } = useSelector((state) => state.auth);
+    const [employees, setEmployees] = useState([]);
+    const [loading,setLoading]=useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const employeesPerPage = 5;
 
     useEffect(() => {
         const fetchEmployeesList = async () => {
             try {
+                setLoading(true);
                 const res = await dispatch(EmployeesList(AccessToken));
-                setEmployees(res.data); 
+                console.log(res);
+                setEmployees(res?.data?.Employees);
             } catch (error) {
                 console.error("Error fetching employees", error);
             }
+            setLoading(false);
         };
-  
+
         fetchEmployeesList();
     }, [dispatch]);
+
+    const indexOfLastEmployee = currentPage * employeesPerPage;
+    const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
+    const currentEmployees = employees.slice(indexOfFirstEmployee, indexOfLastEmployee);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
 
     console.log(employees);
     return (
         <div className='pb-9 bg-slate-100 rounded h-screen'>
+            {
+               loading &&   <div className=' absolute grid place-content-center h-screen w-[85%]'><Spinner/></div>
+            }      
             {/* section 1 */}
             <div className='p-5'>
                 <p className='text-slate-950 text-xl left-6 font-semibold'>Home / Dashboard /  
@@ -70,10 +86,10 @@ const EmployeeList = () => {
                     </div>
                 </div>
             </div>
-            {/* section 3 */}
+        {/* section 3 */}
             <div className='p-5'>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    {employees.length > 0 ? (
+                    {currentEmployees.length > 0 ? (
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-black uppercase bg-slate-200 ">
                                 <tr>
@@ -87,10 +103,10 @@ const EmployeeList = () => {
                                         Employee Email
                                     </th>
                                     <th scope="col" className="px-6 py-3" data-testid="address-header">
-                                        Employee Address
+                                        Employee Code
                                     </th>
                                     <th scope="col" className="px-6 py-3" data-testid="role-header">
-                                        Employee Role
+                                        Employee Position
                                     </th>
                                     <th scope="col" className="px-6 py-3" data-testid="action-header">
                                         Action
@@ -98,24 +114,26 @@ const EmployeeList = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {employees.map((employee, index) => (
-                                    <tr key={employee.empId} className={index % 2 === 0 ? 'bg-white text-black' : 'bg-gray-100 text-black'}>
+                                {currentEmployees.map((employee, index) => (
+                                    <tr key={employee?.employeeId} className={index % 2 === 0 ? 'bg-white text-black' : 'bg-gray-100 text-black'}>
                                         <td scope="row" className="px-6 py-4 w-10">
                                             <div className='flex justify-start'>
-                                                <img className='rounded-full aspect-square w-[30px] h-[30px] object-cover' src={employee.avatar} alt={`${employee.name}`}/>
+                                                <img className='rounded-full aspect-square w-[30px] h-[30px] object-cover' src={employee?.profileImage} alt={`${employee?.firstName}`}/>
                                             </div>
                                         </td>
-                                        <td scope="row" className="px-6 py-4">
-                                            {employee.name}
+                                        <Link to={`/employee-info/${employee?.firstName}`}>
+                                            <td scope="row" className="px-6 py-4">
+                                                {`${employee?.firstName} ${employee.lastName}`}
+                                            </td>
+                                        </Link>
+                                        <td className="px-6 py-4">
+                                            {employee?.email}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {employee.email}
+                                            {employee?.employeeCode}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {employee.address}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {employee.role}
+                                            {employee?.position ? employee?.position : "Manager"} 
                                         </td>
                                         <td className="px-6 py-4 flex gap-x-2">
                                             <Link
@@ -138,6 +156,23 @@ const EmployeeList = () => {
                         <p data-testid="no-employee-found" className="text-center">No employees found</p>
                     )}
                 </div>
+            </div>
+            {/* Pagination Controls */}
+            <div className="flex justify-between p-5">
+                <button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className=" bg-slate-400 text-white p-2 rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <button
+                    onClick={handleNextPage}
+                    disabled={indexOfLastEmployee >= employees.length}
+                    className=" bg-slate-400 text-white p-2  disabled:opacity-50 text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200"
+                >
+                    Next
+                </button>
             </div>
         </div>
     );

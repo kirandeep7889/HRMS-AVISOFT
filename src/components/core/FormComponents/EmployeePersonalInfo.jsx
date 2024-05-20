@@ -7,6 +7,7 @@ import { setStep } from '../../../slices/employeeSlice';
 import axios from 'axios';
 import { addEmployeePersonalDetails } from '../../../services/operations/employeeAPI';
 import { FaPlus } from 'react-icons/fa';
+import { Departmentlist } from '../../../services/operations/departmentAPI';
 
 const EmployeePersonalInfo = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,7 +27,8 @@ const EmployeePersonalInfo = () => {
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
-                const response = await axios.get("http://ec2-51-20-3-193.eu-north-1.compute.amazonaws.com/api/v1/department");
+                const response = await dispatch(Departmentlist(AccessToken));
+                console.log(response)
                 setDepartments(response.data);
             } catch (error) {
                 console.error("Error fetching departments:", error);

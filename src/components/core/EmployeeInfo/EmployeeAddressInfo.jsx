@@ -13,31 +13,30 @@ const EmployeeAddressInfo = ({ user }) => {
   const addressDetails = [
     {
       name: 'Address Type',
-      value: addressDetail ? addressDetail.addressType : null,
+      value: addressDetail ? addressDetail.addressType : <p className='text-pink-600'>Add Address Type</p>,
     },
     {
       name: 'Country',
-      value: addressDetail ? addressDetail.country : null,
+      value: addressDetail ? addressDetail.country : <p className='text-pink-600'>Add Country</p>,
     },
     {
       name: 'Property Number',
-      value: addressDetail ? addressDetail.propertyNumber : null,
+      value: addressDetail ? addressDetail.propertyNumber : <p className='text-pink-600'>Add Property Number</p>,
     },
     {
       name: 'City',
-      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.city : null,
+      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.city : <p className='text-pink-600'>Add City</p>,
     },
     {
       name: 'State',
-      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.state : null,
+      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.state : <p className='text-pink-600'>Add State</p>,
     },
     {
       name: 'Zip Code',
-      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.zipCode : null,
+      value: addressDetail && addressDetail.zipCode ? addressDetail.zipCode.zipCode : <p className='text-pink-600'>Add Zip Code</p>,
     },
     // Add more fields as needed
   ];
-
 
   return (
     <div className='flex items-center justify-center flex-col gap-5 w-[75%] mx-auto'>
@@ -49,7 +48,7 @@ const EmployeeAddressInfo = ({ user }) => {
             <button
               type='submit'
               className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
-                loading ? 'bg-slate-900 text-white' : 'bg-yellow-500 text-black'
+                 'bg-yellow-500 text-black'
               } py-1 px-5 flex items-center`}
             >
               Edit <FiEdit className='ml-2' />
