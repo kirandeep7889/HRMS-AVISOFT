@@ -7,22 +7,38 @@ const {
   ,EMPLOYEE_LIST_API,
   UPLOAD_EMPLOYEE_IMAGE_API,
   ADD_EMPLOYEE_PERSONAL_DETAILS_API,
+  UPDATE_EMPLOYEE_PERSONAL_DETAILS_API,
   ADD_EMPLOYEE_EMERGENCY_CONTACT_API,
+  EDIT_EMPLOYEE_EMERGENCY_CONTACT_API,
+  ADD_EMPLOYEE_ADDRESS_DETAILS_API,
+  EDIT_EMPLOYEE_ADDRESS_DETAILS_API,
+  ADD_EMPLOYEE_BANK_DETAILS_API,
+  EDIT_EMPLOYEE_BANK_DETAILS_API,
   EMPLOYEE_SEARCH_API
 }=employeeEndpoints;
 import { addEmployees, setStep } from "../../slices/employeeSlice.js";
-import axios from "axios";
 
 export function addEmployee(employeeData) {
     return async (dispatch) => {
       dispatch(setLoading(true));
       try {
-        console.log(employeeData)
-        const {AccessToken,navigate}=employeeData;
-        const response = await apiConnector("POST", ADD_EMPLOYEE_API, employeeData,`Bearer ${AccessToken}`);
-        console.log(response)
+        console.log(employeeData);
+        const {AccessToken,navigate,email,password,role}=employeeData;
+        console.log(AccessToken)
+        const response = await apiConnector(
+          "POST",
+         ADD_EMPLOYEE_API,
+         {
+          email,
+          password,
+          role
+         },
+         {
+          Authorization: `Bearer ${AccessToken}`,
+      });
+        console.log(response);
         dispatch(addEmployees(response?.data?.employeeId)); 
-        toast.success(response?.data?.message);
+        toast.success("Employee Created Successfully");
         dispatch(setStep(2))
       } catch (error) {
         console.log(error)
@@ -36,9 +52,13 @@ export function addEmployee(employeeData) {
     return async (dispatch) => {
         try {
           console.log(employeeName)
+          console.log(AccessToken)
             const response = await apiConnector(
                 "GET",
-                `${EMPLOYEE_SEARCH_API}?name=${employeeName}`,
+                EMPLOYEE_SEARCH_API(employeeName),
+                null,
+                { Authorization: `Bearer ${AccessToken}` } 
+
             );
             console.log(response);
             return response;
@@ -50,23 +70,22 @@ export function addEmployee(employeeData) {
 
   export function uploadEmployeeImage(employeeId,AccessToken, formData) {
     return async (dispatch) => {
-      const toastId = toast.loading("Loading...")
+      const toastId = toast.loading("Uploading...")
         try {
             console.log(AccessToken)
             console.log(employeeId);
             console.log(formData);
             const response = await apiConnector(
                 "POST",
-                `http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/employee/${employeeId}/uploadImage`,formData,
+                UPLOAD_EMPLOYEE_IMAGE_API(employeeId),
+                formData,
                 {
-                  headers: {
-                  "Content-Type": "multipart/form-data",
                   Authorization: `Bearer ${AccessToken}`,
-                  }
               }
             );
+            if(response?.status!=200) return;
             console.log(response);
-            toast.success(response?.data?.message)
+            toast.success("Uploaded Profile Image")
         } catch (error) {
             console.error("Error uploading employee image:", error);
             toast.error("Error uploading Profile Image");
@@ -77,24 +96,22 @@ export function addEmployee(employeeData) {
 
 export function addEmployeePersonalDetails(employeeId,data,AccessToken) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Adding...")
       try {
           console.log(employeeId);
           console.log(AccessToken);
           console.log(data)
           const response = await apiConnector(
-               "PUT",
-              `${ADD_EMPLOYEE_PERSONAL_DETAILS_API}/${employeeId}`,
+               "POST",
+               ADD_EMPLOYEE_PERSONAL_DETAILS_API(employeeId),
               data,
               {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
                       Authorization: `Bearer ${AccessToken}`,
-                  },
               }
           );
           console.log(response);
-          toast.success(response?.data?.message)
+          if(response?.status!=200) return;
+          toast.success("Added Employee Personal Details")
       } catch (error) {
           console.error( error);
           toast.error("Error adding Personal Details");
@@ -103,26 +120,45 @@ export function addEmployeePersonalDetails(employeeId,data,AccessToken) {
   }
 }
 
-export function addEmployeeEmergencyContactDetails(employeeId,data,AccessToken) {
+export function UpdateEmployeePersonalDetails(employeeId,data,AccessToken) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Updating...")
       try {
           console.log(employeeId);
           console.log(AccessToken);
           console.log(data)
           const response = await apiConnector(
+               "PUT",
+              UPDATE_EMPLOYEE_PERSONAL_DETAILS_API(employeeId),
+              data,
+              {
+                      Authorization: `Bearer ${AccessToken}`,
+              }
+          );
+          console.log(response);
+          if(response?.status==200) toast.success("Updated Employee Personal Details")
+      } catch (error) {
+          console.error( error);
+          toast.error("Error Updating Personal Details");
+      }
+      toast.dismiss(toastId);
+  }
+}
+export function addEmployeeEmergencyContactDetails(employeeId,data,AccessToken) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Adding...")
+      try {
+          const response = await apiConnector(
                "POST",
               ADD_EMPLOYEE_EMERGENCY_CONTACT_API(employeeId)
                , data,
               {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
                       Authorization: `Bearer ${AccessToken}`,
-                  },
               }
           );
+         if(response?.status!=201) return;
           console.log(response);
-          toast.success(response?.data?.message)
+          toast.success("Added Emergency Contact Details Successfully")
       } catch (error) {
           console.error( error);
           toast.error("Error adding Emergency Contact Details");
@@ -131,6 +167,28 @@ export function addEmployeeEmergencyContactDetails(employeeId,data,AccessToken) 
   }
 }
 
+export function EditEmployeeEmergencyContactDetails(contactId, contactData, AccessToken) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...")
+      try {
+           console.log(contactId)
+          const response = await apiConnector(
+               "PATCH",
+               EDIT_EMPLOYEE_EMERGENCY_CONTACT_API(contactId),
+                contactData,
+              {
+                      Authorization: `Bearer ${AccessToken}`,
+              }
+          );
+          console.log(response);
+          toast.success("Updated Emergency Contact Details Successfully")
+      } catch (error) {
+          console.error( error);
+          toast.error("Error Updating Emergency Contact Details");
+      }
+      toast.dismiss(toastId);
+  }
+}
 export function addEmployeeAddressDetails(employeeId,data,AccessToken) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -140,19 +198,42 @@ export function addEmployeeAddressDetails(employeeId,data,AccessToken) {
           console.log(data)
           const response = await apiConnector(
                "POST",
-               `http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/${employeeId}/addNewAddress`, data,
+               ADD_EMPLOYEE_ADDRESS_DETAILS_API(employeeId),
+                data,
               {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
-                      Authorization: `Bearer ${AccessToken}`,
-                  },
+                Authorization: `Bearer ${AccessToken}`,
               }
           );
           console.log(response);
-          toast.success(response?.data?.message)
+          toast.success("Added Employee Address Details")
       } catch (error) {
           console.error( error);
-          toast.error("Error adding Emergency Contact Details");
+          toast.error("Error adding Employee Address Details");
+      }
+      toast.dismiss(toastId);
+  }
+}
+
+
+export function UpdateEmployeeAddressDetails(editedEmployeeId,addressId,addressData, AccessToken) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...")
+      try {
+          console.log(editedEmployeeId);
+          console.log(AccessToken);
+          const response = await apiConnector(
+               "PUT",
+               EDIT_EMPLOYEE_ADDRESS_DETAILS_API(editedEmployeeId,addressId),
+               addressData,
+              {
+                Authorization: `Bearer ${AccessToken}`,
+              }
+          );
+          console.log(response);
+          toast.success("Updated Employee Address Details")
+      } catch (error) {
+          console.error( error);
+          toast.error("Error Updating Employee Address Details");
       }
       toast.dismiss(toastId);
   }
@@ -166,16 +247,15 @@ export function addEmployeeBankDetails(employeeId,data,AccessToken) {
           console.log(data)
           const response = await apiConnector(
                "POST",
-               `http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/account/${employeeId}/AddBankAccount`, data,
+               ADD_EMPLOYEE_BANK_DETAILS_API(employeeId),
+                data,
               {
-                  headers: {
-                      "Content-Type": "multipart/form-data",
                       Authorization: `Bearer ${AccessToken}`,
-                  },
               }
+
           );
           console.log(response);
-          toast.success(response?.data?.message)
+          toast.success("Added bank Account Details")
       } catch (error) {
           console.error( error);
           toast.error("Error adding bank Account Details");
@@ -183,11 +263,48 @@ export function addEmployeeBankDetails(employeeId,data,AccessToken) {
       toast.dismiss(toastId);
   }
 }
-  export function EmployeesList(AccessToken) {
+
+export function EditEmployeeBankDetails(employeeId,data,AccessToken) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Updating...")
+      try {
+          console.log(employeeId);
+          console.log(AccessToken);
+          console.log(data)
+          const response = await apiConnector(
+               "POST",
+               EDIT_EMPLOYEE_BANK_DETAILS_API(employeeId),
+                data,
+              {
+                      Authorization: `Bearer ${AccessToken}`,
+              }
+
+          );
+          console.log(response);
+          toast.success("Added bank Account Details")
+      } catch (error) {
+          console.error( error);
+          toast.error("Error adding bank Account Details");
+      }
+      toast.dismiss(toastId);
+  }
+}
+
+  export function EmployeesList(AccessToken,page,size) {
     return async(dispatch) => {
       try{
-      dispatch(setLoading(true));
-      const response = await apiConnector("GET", EMPLOYEE_LIST_API,`Bearer ${AccessToken}`);
+       console.log(page)
+       console.log(size)      
+      const response = await apiConnector("GET", EMPLOYEE_LIST_API,
+      null,
+      {
+         Authorization: `Bearer ${AccessToken}`,
+    },
+    {
+      page: page,
+      size:size
+    }
+      );
       return response; 
       }catch (err) {
         console.log(err)

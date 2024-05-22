@@ -24,21 +24,18 @@ describe('EmployeePersonalInfo component', () => {
     expect(screen.getByPlaceholderText('Enter Your First Name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter Your Last Name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter Your Mobile Number')).toBeInTheDocument();
-    // Add more assertions for other input fields if needed
   });
 
   it('renders labels with correct inner text', () => {
     expect(screen.getByText('First Name')).toBeInTheDocument();
     expect(screen.getByText('Last Name')).toBeInTheDocument();
     expect(screen.getByText('Department')).toBeInTheDocument();
-    // Add more assertions for other labels if needed
   });
 
   it('renders select options with correct inner text', () => {
     expect(screen.getByText('Developer')).toBeInTheDocument();
     expect(screen.getByText('Tester')).toBeInTheDocument();
     expect(screen.getByText('HR')).toBeInTheDocument();
-    // Add more assertions for other select options if needed
   });
 
   it('renders submit button with correct inner text', () => {

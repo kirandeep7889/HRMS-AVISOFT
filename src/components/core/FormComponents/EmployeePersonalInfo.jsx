@@ -2,43 +2,62 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import UploadEmployeeImage from '../dashboard/AdminPanel/Employee/UploadEmployeeImage';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { setStep } from '../../../slices/employeeSlice';
-import axios from 'axios';
-import { addEmployeePersonalDetails } from '../../../services/operations/employeeAPI';
-import { FaPlus } from 'react-icons/fa';
+import { addEmployeePersonalDetails, UpdateEmployeePersonalDetails } from '../../../services/operations/employeeAPI';
+import { FaPlus, FaEdit, FaArrowRight } from 'react-icons/fa';
 import { Departmentlist } from '../../../services/operations/departmentAPI';
 
 const EmployeePersonalInfo = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const {loading}=useSelector((state)=>state.auth);
-    const {AccessToken}=useSelector((state)=>state.auth)
-    const dispatch=useDispatch();
-    const [departments,setDepartments]=useState([]);
-    const {employees}=useSelector((state)=>state.employee);
-
-    console.log(AccessToken)
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const { loading } = useSelector((state) => state.auth);
+    const { AccessToken } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const [departments, setDepartments] = useState([]);
+    const { employees } = useSelector((state) => state.employee);
+    const isEditing = useSelector((state) => state.editing.isEditing);
+    const preEditedEmployeeDetails = useSelector((state) => state.editing.preEditedEmployeeDetails);
 
     const onSubmit = (data) => {
         console.log(data);
-        const employeeId=employees[0];
-        dispatch(addEmployeePersonalDetails(employeeId,data,AccessToken))
-    };
+        const employeeId = employees[0];
+        if (isEditing) {
+            console.log(employeeId)
+
+            dispatch(UpdateEmployeePersonalDetails(preEditedEmployeeDetails.employeeId, data, AccessToken));
+        } else {
+            dispatch(addEmployeePersonalDetails(employeeId, data, AccessToken));
+        }    };
+
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
                 const response = await dispatch(Departmentlist(AccessToken));
-                console.log(response)
+                console.log(response);
                 setDepartments(response.data);
             } catch (error) {
                 console.error("Error fetching departments:", error);
             }
         };
         fetchDepartments();
-    }, []);
+    }, [dispatch, AccessToken]);
 
-console.log(departments)
+    console.log(preEditedEmployeeDetails);
+    
+    console.log(isEditing);
 
+    useEffect(() => {
+        if (isEditing && preEditedEmployeeDetails) {
+            for (const [key, value] of Object.entries(preEditedEmployeeDetails)) {
+                if (key === "department") {
+                    console.log(value?.department)
+                    setValue("Department", value?.department);
+                } else {
+                    setValue(key, value);
+                }
+            }
+        }
+    }, [isEditing, preEditedEmployeeDetails, setValue]);
+    
     return (
         <div>
             {/* UPLOAD IMAGE DIV */}
@@ -47,24 +66,26 @@ console.log(departments)
             </div>
             {/* PERSONAL DETAILS DIV */}
             <div>
-                <h2 className='text-lg  text-center text-slate-600 font-semibold'>Personal Info</h2>
- 
+                <h2 className='text-lg text-center text-slate-600 font-semibold'>
+                    {isEditing ? 'Edit Personal Info' : 'Personal Info'}
+                </h2>
+
                 <form data-testid="create-employee-form" className="p-5" onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-2 gap-4">
                         <label>
                             <p className="text-[0.875rem] text-slate-900 mb-1 leading-[1.375rem] font-semibold">First Name<sup className="text-red-900">*</sup></p>
-                            <input className="bg-richblack-800 rounded-[0.5rem]  w-full p-[12px] border-b-[1px] border-slate-800" required type="text" name="firstName" {...register("firstName")} placeholder="Enter Your First Name" data-testid="first-name-input" />
+                            <input className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800" required type="text" name="firstName" {...register("firstName")} placeholder="Enter Your First Name" data-testid="first-name-input" />
                         </label>
                         <div className="h-4 sm:hidden"></div>
                         <label>
                             <p className="text-[0.875rem] text-slate-900 mb-1 leading-[1.375rem] font-semibold">Last Name<sup className="text-red-900">*</sup></p>
-                            <input className="bg-richblack-800 rounded-[0.5rem]  w-full p-[12px] border-b-[1px] border-slate-800" required type="text" name="lastName" {...register("lastName")} placeholder="Enter Your Last Name" data-testid="last-name-input" />
+                            <input className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800" required type="text" name="lastName" {...register("lastName")} placeholder="Enter Your Last Name" data-testid="last-name-input" />
                         </label>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-4">
                             <label htmlFor="departmentId" className="block text-sm font-semibold text-slate-900">Department<sup className="text-red-900">*</sup></label>
-                            <select   required id="departmentId" {...register("departmentId")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="department-select">
+                            <select required id="departmentId" {...register("departmentId")} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="department-select" value={preEditedEmployeeDetails?.department?.departmentId}>
                                 {departments.map((department) => (
                                     <option key={department?.departmentId} value={department?.departmentId}>{department?.department}</option>
                                 ))}
@@ -81,7 +102,6 @@ console.log(departments)
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-4">
-                            
                             <label htmlFor="joinDate" className="block text-sm font-semibold text-slate-900">Join Date<sup className="text-red-900">*</sup></label>
                             <input id="joinDate" required {...register("joinDate")} type="date" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" data-testid="join-date-input" />
                         </div>
@@ -115,14 +135,14 @@ console.log(departments)
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
-                            <div className="mt-4">
-                                <label htmlFor="uanNumber" className="block text-sm font-semibold text-slate-900">UAN Number<sup className="text-red-900">*</sup></label>
-                                <input required id="uanNumber" {...register("uanNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your UAN Number" data-testid="uan-input" />
-                            </div>
-                            <div className="mt-4">
-                                <label htmlFor="salary" className="block text-sm font-semibold text-slate-900">Salary<sup className="text-red-900">*</sup></label>
-                                <input required id="salary" {...register("salary")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter The Salary" data-testid="salary-input" />
-                            </div>
+                        <div className="mt-4">
+                            <label htmlFor="uanNumber" className="block text-sm font-semibold text-slate-900">UAN Number<sup className="text-red-900">*</sup></label>
+                            <input required id="uanNumber" {...register("uanNumber")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Your UAN Number" data-testid="uan-input" />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="salary" className="block text-sm font-semibold text-slate-900">Salary<sup className="text-red-900">*</sup></label>
+                            <input required id="salary" {...register("salary")} type="number" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter The Salary" data-testid="salary-input" />
+                        </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="mt-4">
@@ -130,19 +150,22 @@ console.log(departments)
                             <input required id="employeeCode" {...register("employeeCode")} type="text" className="border border-slate-300 rounded px-3 py-2 mt-2 w-full" placeholder="Enter Employee Code" data-testid="employee-code-input" />
                         </div>
                     </div>
-                    <div className='flex  items-center gap-x-3 mt-5'>
+                    <div className='flex items-center gap-x-3 mt-5'>
                         <button type="submit" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
-                        loading ? 'bg-slate-900 text-white' : 'bg-yellow-500 text-black'
+                               'bg-yellow-500 text-black'
                         } py-1 px-5 flex items-center`}>
-                            Add <FaPlus className="ml-2"/>
+                            {isEditing ? <><FaEdit className="mr-2"/>Update</> : <><FaPlus className="mr-2"/>Add</>}
                         </button>
                     </div>  
                 </form>
             </div>
-            <div className='flex flex-col items-center justify-center px-72  w-full'>
-                <button onClick={()=> dispatch(setStep(3))}   className={`text-center w-full text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+            <div className='flex flex-col items-center justify-center  px-72 w-full'>
+                <button onClick={() => dispatch(setStep(3))} className={`text-center w-full text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
                     loading ? 'bg-slate-900 text-white' : 'bg-yellow-500 text-black'
-              } py-1 px-5`}>Next Step</button>
+                } py-1 px-5 flex items-center justify-center`}>
+                    {isEditing ? 'Update Additional Details' : 'Next Step'}
+                    <FaArrowRight className="ml-2"/>
+                </button>
             </div>
         </div>
     );

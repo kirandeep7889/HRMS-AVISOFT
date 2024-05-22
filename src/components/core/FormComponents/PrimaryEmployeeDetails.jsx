@@ -2,7 +2,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setStep } from '../../../slices/employeeSlice';
 import { addEmployee } from '../../../services/operations/employeeAPI';
 
 
@@ -18,7 +17,6 @@ const PrimaryEmployeeDetails = () => {
         data.navigate = navigate;
         data.AccessToken=AccessToken
         dispatch(addEmployee(data));
-        // dispatch(setStep(2))
     }
   return (
     <div className='flex flex-col items-center h-[420px]'>

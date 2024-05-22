@@ -3,12 +3,14 @@ import authReducer from "../slices/authSlice";
 import profileReducer from "../slices/profileSlice";
 import employeeReducer from "../slices/employeeSlice";
 import departmentReducer from "../slices/departmentSlice"
+import editingReducer from "../slices/editingSlice";
 
 const rootReducer=combineReducers({
      auth: authReducer,
      profile : profileReducer,
      employee:employeeReducer,
-     department:departmentReducer
+     department:departmentReducer,
+     editing:editingReducer
 })
 
 

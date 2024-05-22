@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDepartment, updateDepartment} from '../../../../../services/operations/departmentAPI';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { EmployeeSearch } from '../../../../../services/operations/employeeAPI';
 
 const CreateUpdateDepartment = () => {
   const { register, handleSubmit, setValue } = useForm();
@@ -41,7 +42,7 @@ const CreateUpdateDepartment = () => {
 
     if (isEditing) {
       console.log(formData)
-      await dispatch(updateDepartment(formData, department.departmentId));
+      await dispatch(updateDepartment(AccessToken,formData, department.departmentId));
     } else {
       await dispatch(addDepartment(formData));
     }
@@ -49,7 +50,7 @@ const CreateUpdateDepartment = () => {
 
   const handleSearch = async (searchTerm) => {
     try {
-      const response = await axios.get(`http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/employee/searchEmployee?name=${searchTerm}`);
+      const response = await dispatch(EmployeeSearch(AccessToken,searchTerm))
       const data = response.data;
       if (Array.isArray(data) && data.length > 0) {
         setSearchResults(data[0]);

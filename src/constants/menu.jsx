@@ -74,7 +74,7 @@ console.log(user?.roles[0].role)
           {
             key: "NewEmployee",
             label: t("New Employee"),
-            url: "/employee/create-Employee",
+            url: "/employee/create-update-employee",
             parentKey: "Employee",
             icon: (
               <AiOutlineUserAdd size={16} className="side-bar-subitem-icon" />
@@ -131,4 +131,4 @@ console.log(user?.roles[0].role)
   }
 };
 
-export default MenuItems;
+export default MenuItems;       
