@@ -40,19 +40,20 @@ The application will be available at http://localhost:5173.
 
 
 ## Feature Branches:
-```
 1. Login-page
 2. Add-Employee
-```
 
 ## 1. LOGIN-PAGE
+
+
 The login-page branch provides the login 
 functionality for different user roles (superadmin, admin, 
 and employee). Users can select their role from a dropdown
 and log in with their respective accounts.
 
 
-                        UNIT TESTING STRATEGY:
+ UNIT TESTING STRATEGY:
+ 
  The unit tests for the login-page are designed to ensure the LoginFormTemplate component works correctly. Key points include:
 
 1. Setup and Teardown: Mocking store.dispatch and authAPI.login to prevent actual API calls and state changes.
@@ -70,7 +71,8 @@ We test the behavior of the component by simulating user interactions and verify
 
 The add-employee-page branch provides the functionality to add a new employee in a multi-step process. This branch is divided into three main steps to ensure all necessary information is captured efficiently.
 
-                    Step 1: Primary Information
+ Step 1: Primary Information:-
+
 This step captures the employee's primary information, including email, password, and role.
 Database Entry: The initial entry for the user is created in the database based on this information.
 Unit Testing Strategy for Step 1
@@ -87,7 +89,8 @@ Form Field Labels: Verify that the labels for email, password, and role are rend
 Submit Button Text: Ensure that the submit button is present and has the text "Submit".
 Form Fields Presence: Confirm that all form fields (email, password, role select, and submit button) are rendered in the document.
 
-                     Step 2: Personal Information
+Step 2: Personal Information:-
+
 The add-employee-page branch's second step is focused on gathering personal information about the employee. The EmployeePersonalInfo component is responsible for collecting details such as first name, last name, department, position, and other personal identifiers like PAN, Aadhar, and UAN numbers. 
 
 The unit tests for the EmployeePersonalInfo component ensure that all form fields are correctly rendered with appropriate placeholders, labels, and select options. The testing strategy includes:
@@ -97,7 +100,8 @@ Field Labels: Ensuring that labels for each form field are rendered with the cor
 Select Options: Checking that select options (e.g., department, position, gender) are rendered and contain the expected values.
 Buttons: Ensuring that the submit and navigation buttons (e.g., "Add" and "Next Step") are present with the correct text.
 
-                       Step 3: Additional Details
+ Step 3: Additional Details:-
+ 
 The third step in the add-employee-page branch is focused on capturing additional details about the employee, including emergency contact information, address details, and bank account details. The EmployeeAdditionalDetails component manages these inputs. Here's a brief explanation of the unit testing strategy for this step:
 Unit Testing Strategy
 The unit tests for the EmployeeAdditionalDetails component ensure that all form fields are correctly rendered with appropriate placeholders, labels, and that form submission works as expected. The testing strategy includes:
@@ -109,6 +113,3 @@ Field Labels: Ensuring that labels for each form field are rendered with the cor
 Form Submission: Testing that the form handles submissions correctly, including interaction with mocked API calls.
 
 Conditional Rendering: Checking that form fields are pre-filled with existing data when in edit mode.                       
-
-
-
