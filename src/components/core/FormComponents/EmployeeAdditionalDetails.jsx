@@ -3,7 +3,14 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaPlus } from "react-icons/fa";
 import { setStep } from '../../../slices/employeeSlice';
-import { addEmployeeAddressDetails, addEmployeeBankDetails, addEmployeeEmergencyContactDetails, EditEmployeeBankDetails, EditEmployeeEmergencyContactDetails, UpdateEmployeeAddressDetails } from '../../../services/operations/employeeAPI';
+import { 
+    addEmployeeAddressDetails, 
+    addEmployeeBankDetails, 
+    addEmployeeEmergencyContactDetails, 
+    EditEmployeeBankDetails, 
+    EditEmployeeEmergencyContactDetails, 
+    UpdateEmployeeAddressDetails 
+} from '../../../services/operations/employeeAPI';
 
 const EmployeeAdditionalDetails = () => {
     const { register: registerEmergency, handleSubmit: handleSubmitEmergency, formState: { errors: errorsEmergency }, setValue: setEmergencyValue } = useForm();
@@ -21,11 +28,6 @@ const EmployeeAdditionalDetails = () => {
     const [emergencyFields, setEmergencyFields] = useState([]);
     const [editingEmergencyIndex, setEditingEmergencyIndex] = useState(null);
     const [bankDetails, setBankDetails] = useState(null);
-
-    
-    
-    console.log(preEditedEmployeeDetails);
-    console.log(isEditing);
 
     useEffect(() => {
         if (isEditing && preEditedEmployeeDetails) {
@@ -67,40 +69,36 @@ const EmployeeAdditionalDetails = () => {
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
-    const emergencyContactDetailsSubmit = (data, index) => {
+    const EditEmergencyContactDetailsSubmit = (data, index = null) => {
         const employeeId = employees[0];
-        if (isEditing) {
             const contact = data.contacts[index];
             const { contactId, ...contactData } = contact;
-            console.log(contactId);
             dispatch(EditEmployeeEmergencyContactDetails(contactId, contactData, AccessToken));
-        } else {
-            dispatch(addEmployeeEmergencyContactDetails(employeeId, data, AccessToken));
-        }
-        setEditingEmergencyIndex(null);
+            setEditingEmergencyIndex(null);
     };
 
-    const onSubmitAddress = (data, index) => {
+    const AddEmergencyContactDetailsSubmit=(data)=>{
         const employeeId = employees[0];
-        if (isEditing) {
+        dispatch(addEmployeeEmergencyContactDetails(editedEmployeeId, data, AccessToken));
+    } 
+
+    const EditSubmitAddress = (data, index = null) => {
             const address = data.addresses[index];
             const { addressId, ...addressData } = address;
             dispatch(UpdateEmployeeAddressDetails(editedEmployeeId, addressId, addressData, AccessToken));
-        } else {
-            dispatch(addEmployeeAddressDetails(employeeId, data, AccessToken));
-        }
         setEditingAddressIndex(null);
     };
+    const AddSubmitAddress = (data) => {
+        dispatch(addEmployeeAddressDetails(editedEmployeeId, data, AccessToken));
+    setEditingAddressIndex(null);
+};
+    
 
-    const onSubmitBank = (data) => {
-        const employeeId = employees[0];
-        if(isEditing) {
-            console.log(data);
-            dispatch(EditEmployeeBankDetails(editedEmployeeId,data,AccessToken))
-        }
-        else {
-        dispatch(addEmployeeBankDetails(employeeId, data, AccessToken));
-        }
+    const EditSubmitBank = (data) => {
+            dispatch(EditEmployeeBankDetails(editedEmployeeId, data, AccessToken));
+    };
+    const AddSubmitBank = (data) => {
+        dispatch(addEmployeeBankDetails(editedEmployeeId, data, AccessToken));
     };
 
     const handleEditAddress = (index) => {
@@ -110,7 +108,6 @@ const EmployeeAdditionalDetails = () => {
     const handleEditEmergency = (index) => {
         setEditingEmergencyIndex(index);
     };
-
     const bankNames = ["Jammu and Kashmir Bank", "State Bank of India", "Axis Bank", "HDFC Bank"];
     const addressTypes = ["TEMPORARY", "PERMANENT"];
 
@@ -121,7 +118,7 @@ const EmployeeAdditionalDetails = () => {
                 <div>
                     <h2 className='text-lg text-center text-slate-600 font-semibold mt-8'>Edit Emergency Contact Details<sup className="text-red-900 font-extrabold">*</sup></h2>
                     {emergencyFields.map((contact, index) => (
-                        <form key={index} className="p-5" onSubmit={handleSubmitEmergency((data) => emergencyContactDetailsSubmit(data, index))}>
+                        <form key={index} className="p-5" onSubmit={handleSubmitEmergency((data) => EditEmergencyContactDetailsSubmit(data, index))}>
                             <div className='grid grid-cols-2 gap-4'>
                                 <div className="mt-2">
                                     <label htmlFor={`contacts[${index}].contact`} className="block text-sm font-semibold text-slate-900">Contact<sup className="text-red-900">*</sup></label>
@@ -146,7 +143,7 @@ const EmployeeAdditionalDetails = () => {
                 <div>
                 <h2 className='text-lg  text-center text-slate-600 font-semibold mt-8'>Emergency Contact Details<sup className="text-red-900 font-extrabold">*</sup></h2>
 
-                <form data-testid="additional-details-form" className="p-5" onSubmit={handleSubmitEmergency(emergencyContactDetailsSubmit)}>
+                <form data-testid="additional-details-form" className="p-5" onSubmit={handleSubmitEmergency(AddEmergencyContactDetailsSubmit)}>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-2">
                             <label htmlFor="contact" className="block text-sm font-semibold text-slate-900">Contact<sup className="text-red-900">*</sup></label>
@@ -173,7 +170,7 @@ const EmployeeAdditionalDetails = () => {
                 <div>
                     <h2 className='text-lg text-center text-slate-600 font-semibold mt-8'>Edit Address Details<sup className="text-red-900 font-extrabold">*</sup></h2>
                     {addressFields.map((address, index) => (
-                        <form key={index} className="p-5" onSubmit={handleSubmitAddress((data) => onSubmitAddress(data, index))}>
+                        <form key={index} className="p-5" onSubmit={handleSubmitAddress((data) => EditSubmitAddress(data, index))}>
                             <div className='grid grid-cols-2 gap-4'>
                                 <div className="mt-2">
                                     <label htmlFor={`addresses[${index}].addressType`} className="block text-sm font-semibold text-slate-900">Address Type<sup className="text-red-900">*</sup></label>
@@ -218,7 +215,7 @@ const EmployeeAdditionalDetails = () => {
             ) : (
                 <div>
                 <h2 className='text-lg  text-center text-slate-600 font-semibold mt-8'>Address Details<sup className="text-red-900 font-extrabold">*</sup></h2>
-                <form data-testid="additional-details-form" className="p-5" onSubmit={handleSubmitAddress(onSubmitAddress)}>
+                <form data-testid="additional-details-form" className="p-5" onSubmit={handleSubmitAddress(AddSubmitAddress)}>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="mt-2">
                             <label htmlFor="addressType" className="block text-sm font-semibold text-slate-900">Address Type<sup className="text-red-900">*</sup></label>
@@ -265,7 +262,7 @@ const EmployeeAdditionalDetails = () => {
     {isEditing && bankDetails ? (
         <div>
             <h2 className='text-lg  text-center text-slate-600 font-semibold mt-8'>Edit Bank Details<sup className="text-red-900 font-extrabold">*</sup></h2>
-            <form className="p-5" onSubmit={handleSubmitBank(onSubmitBank)}>
+            <form className="p-5" onSubmit={handleSubmitBank(EditSubmitBank)}>
                 <div className='grid grid-cols-2 gap-4'>
                     <div className="mt-2">
                         <label htmlFor="bankName" className="block text-sm font-semibold text-slate-900">Bank Name<sup className="text-red-900">*</sup></label>
@@ -303,7 +300,7 @@ const EmployeeAdditionalDetails = () => {
         <div>
             <h2 className='text-lg  text-center text-slate-600 font-semibold mt-8'>Bank Details<sup className="text-red-900 font-extrabold">*</sup></h2>
             <div className="p-5">
-                <form data-testid="bank-details-form" onSubmit={handleSubmitBank(onSubmitBank)}>
+                <form data-testid="bank-details-form" onSubmit={handleSubmitBank(AddSubmitBank)}>
                     <div className="mt-2">
                         <label htmlFor="bankName" className="block text-sm font-semibold text-slate-900">Bank Name<sup className="text-red-900">*</sup></label>
                         <select required id="bankName" {...registerBank("bankName", { required: true })} className="border border-slate-300 rounded px-3 py-2 mt-2 w-full">

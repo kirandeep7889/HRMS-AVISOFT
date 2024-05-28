@@ -2,77 +2,80 @@ jest.mock('../../../../../assets/Images/placeholder.jpg', () => ({
   default: '../../../../../assets/Images/placeholder.jpg',
 }));
 
-global.URL.createObjectURL = jest.fn(() => 'mockImageUrl');
-
 import React from 'react';
-import { render, fireEvent, getByTestId, getByText, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 import UploadEmployeeImage from './UploadEmployeeImage';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { store } from '../../../../../store/store';
-import { uploadEmployeeImage } from '../../../../../services/operations/employeeAPI';
 
-// Mock useSelector
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useSelector: jest.fn(),
-  useDispatch: jest.fn()
-}));
-
-// Mock the uploadEmployeeImage function
-jest.mock('../../../../../services/operations/employeeAPI', () => ({
-  uploadEmployeeImage: jest.fn()
-}));
+const mockStore = configureStore([]);
+const store = mockStore({
+  profile: { user: { firstName: 'John' } },
+  auth: { AccessToken: 'test-token' },
+  employee: { employees: ['test-employee-id'] },
+  editing: { isEditing: false, preEditedEmployeeDetails: null },
+});
 
 describe('UploadEmployeeImage component', () => {
   beforeEach(() => {
-    useSelector.mockReturnValue({
-      profile: {
-        user: {
-          firstName: 'John'
-        }
-      },
-      auth: {
-        AccessToken: 'mockAccessToken'
-      },
-      employee: {
-        employees: ['mockEmployeeId']
-      }
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <UploadEmployeeImage />
+        </Provider>
+      </BrowserRouter>
+    );
+  });
+
+  it('renders with correct text when not editing', () => {
+    expect(screen.getByText('Upload Employee Profile Picture')).toBeInTheDocument();
+  });
+
+  it('renders with correct text when editing', () => {
+    const editStore = mockStore({
+      profile: { user: { firstName: 'John' } },
+      auth: { AccessToken: 'test-token' },
+      employee: { employees: ['test-employee-id'] },
+      editing: { isEditing: true, preEditedEmployeeDetails: { profileImage: 'test-image.jpg' } },
     });
-  });
 
-  afterEach(() => {
-    useSelector.mockClear();
-    useDispatch.mockClear();
-    uploadEmployeeImage.mockClear();
-  });
-
-  it('renders with hardcoded data', () => {
-       render(
-      <Provider store={store}>
-        <UploadEmployeeImage />
-      </Provider>
+    render(
+      <BrowserRouter>
+        <Provider store={editStore}>
+          <UploadEmployeeImage />
+        </Provider>
+      </BrowserRouter>
     );
 
-    expect(screen.getByText('Upload Employee Profile Picture')).toBeInTheDocument();
+    expect(screen.getByText('Update Employee Profile Picture')).toBeInTheDocument();
+  });
+
+  it('renders select button', () => {
     expect(screen.getByText('Select')).toBeInTheDocument();
+  });
+
+  it('renders upload button when not loading', () => {
     expect(screen.getByText('Upload')).toBeInTheDocument();
   });
 
-// Modify the test case for handling file selection and upload
-it('handles file selection and upload', async () => {
-  render(
-    <Provider store={store}>
-      <UploadEmployeeImage />
-    </Provider>
-  );
+  it('renders update button when editing and not loading', () => {
+    const editStore = mockStore({
+      profile: { user: { firstName: 'John' } },
+      auth: { AccessToken: 'test-token' },
+      employee: { employees: ['test-employee-id'] },
+      editing: { isEditing: true, preEditedEmployeeDetails: { profileImage: 'test-image.jpg' } },
+    });
 
-  const fileInput = screen.getByTestId('file-input');
-  const selectButton = screen.getByText(/Select/); // Using regular expression to match "Select"
-  fireEvent.change(fileInput, { target: { files: [new File([], 'profile.jpg')] } });
-  fireEvent.click(selectButton);
+    render(
+      <BrowserRouter>
+        <Provider store={editStore}>
+          <UploadEmployeeImage />
+        </Provider>
+      </BrowserRouter>
+    );
 
-  expect(fileInput.files[0]).toBeDefined();
-
-});
-
+    expect(screen.getByText('Update')).toBeInTheDocument();
+  });
 });

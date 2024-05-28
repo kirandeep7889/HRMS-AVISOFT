@@ -39,7 +39,6 @@ const CreateUpdateDepartment = () => {
 
     formData.navigate = navigate;
     formData.AccessToken = AccessToken;
-
     if (isEditing) {
       console.log(formData)
       await dispatch(updateDepartment(AccessToken,formData, department.departmentId));
@@ -99,6 +98,7 @@ const CreateUpdateDepartment = () => {
               Add Manager<sup className="text-red-900">*</sup>
             </label>
             <input
+              data-testid="employeeSearch"
               type="text"
               id="employeeSearch"
               placeholder="Search employee for adding as manager.."
@@ -120,6 +120,7 @@ const CreateUpdateDepartment = () => {
               <label
                 htmlFor={`employee_${searchResults.userId}`}
                 className={`text-gray-700 text-sm font-semibold ${showRadio ? 'cursor-pointer' : ''}`}
+                data-testid={`search-result-item-label-${searchResults.userId}`}
               >
                 {searchResults.firstName} {searchResults.lastName}
               </label>

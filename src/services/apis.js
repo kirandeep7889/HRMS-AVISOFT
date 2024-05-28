@@ -1,4 +1,4 @@
-const BASE_URL = "http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1"
+const BASE_URL = "http://localhost:5555/api/v1"
 
 
 //Auth ENDPOINTS

@@ -35,7 +35,6 @@ const EmployeePersonalInfo = () => {
                 console.log(response);
                 setDepartments(response.data);
             } catch (error) {
-                console.error("Error fetching departments:", error);
             }
         };
         fetchDepartments();

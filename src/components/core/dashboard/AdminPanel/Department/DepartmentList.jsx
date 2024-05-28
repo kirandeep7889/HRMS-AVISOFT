@@ -19,7 +19,6 @@ const DepartmentList = () => {
         const fetchEmployeesList = async () => {
             try {
                 const res = await dispatch(Departmentlist(AccessToken));
-                console.log(res)
                 setDepartments(res?.data);
             } catch (error) {
                 console.error("Error fetching departments", error);
@@ -36,34 +35,31 @@ const DepartmentList = () => {
     return (
         <div className='pb-9 bg-slate-100 rounded h-screen'>
             {/* section 1 */}
-            <div className='p-5 flex items-center justify-between'>
-                <div className='text-xl text-slate-600 font-semibold'>
+            <div className='p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between'>
+                <div className='text-xl text-slate-600 font-semibold mb-2 lg:mb-0'>
                     Department List
                 </div>
                 <div>
-                    <p className='text-slate-950 text-xl left-6 font-semibold'>Home / Dashboard /
-                        <span className='text-yellow-700'>
-                            Department List
-                        </span>
+                    <p className='text-slate-950 text-xl font-semibold'>
+                        Home / Dashboard /
+                        <span className='text-yellow-700'> Department List</span>
                     </p>
                 </div>
             </div>
             {/* section 2 */}
-            <div className='m-5 flex items-center justify-between rounded p-5'>
-                <div className='flex items-center text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg'>
+            <div className='m-5 flex flex-col lg:flex-row items-start lg:items-center justify-between rounded p-5'>
+                <div className='flex items-center text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg mb-3 lg:mb-0'>
                     <span><HiOutlinePlusCircle /></span>
-                    <button  onClick={() => navigate("/department/department-create-update", { state: { isEditing: false } })}>
+                    <button onClick={() => navigate("/department/department-create-update", { state: { isEditing: false } })}>
                         Add Department
                     </button>
-                </div>
-                <div className='flex items-center gap-x-7'>
                 </div>
             </div>
             {/* section 3 */}
             <div className='p-5'>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-black uppercase bg-slate-200 ">
+                    <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-black uppercase bg-slate-200">
                             <tr>
                                 <th scope="col" className="px-6 py-3" data-testid="Department-Name-header">
                                     Department Name
@@ -121,7 +117,7 @@ const DepartmentList = () => {
 
             {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
         </div>
-    )
+    );
 }
 
 export default DepartmentList;

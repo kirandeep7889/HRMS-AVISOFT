@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
 import PrimaryEmployeeDetails from './PrimaryEmployeeDetails'
 import EmployeePersonalInfo from './EmployeePersonalInfo'
 import EmployeeAdditionalDetails from './EmployeeAdditionalDetails'
@@ -53,9 +52,13 @@ function RenderSteps() {
         }
       </div>
       <div className=' relative'>
-        {step === 1 && (<PrimaryEmployeeDetails />)}
+        {step === 1 && (<PrimaryEmployeeDetails  />)}
+        <div data-testid='employee-personal-info'>
         {step === 2 && (<EmployeePersonalInfo/>)}
+        </div>
+        <div data-testid='employee-additional-details'>
         {step === 3 && (<EmployeeAdditionalDetails/>)}
+        </div>
       </div>
     </div>
   )

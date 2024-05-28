@@ -1,74 +1,66 @@
 // jest.mock('../../../assets/Images/placeholder.jpg', () => ({
-//   default: '../../../assets/Images/placeholder.jpg',
-// }));
-
-// // Your test code starts here
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import '@testing-library/jest-dom/extend-expect';
-// import RenderSteps from './RendersSteps';
-// import { BrowserRouter } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import { store } from '../../../store/store';
-// import { useSelector } from 'react-redux';
-
-// // Mocking the useSelector hook
-// jest.mock('react-redux', () => ({
-//   ...jest.requireActual('react-redux'),
-//   useSelector: jest.fn(),
-// }));
-
-// // Helper function to render with context
-// function renderWithContext(element) {
-//   render(
-//     <BrowserRouter>
-//       <Provider store={store}>{element}</Provider>
-//     </BrowserRouter>
-//   );
-// }
-
-// test('renders correct steps and components based on step state', () => {
-//   // Mocking the useSelector hook to return a specific step
-//   useSelector.mockImplementation((selector) => selector({ employee: { step: 1 } }));
-
-//   renderWithContext(<RenderSteps />);
-
-//   // Assertions for step 1
-//   expect(screen.getByText('Primary Details')).toBeInTheDocument();
-//   expect(screen.getByText('1')).toBeInTheDocument();
-//   expect(screen.queryByText('Personal Details')).toBeInTheDocument();
-//   expect(screen.queryByText('Additional Details')).toBeInTheDocument();
-//   expect(screen.getByTestId('PrimaryEmployeeDetails')).toBeInTheDocument();
-//   expect(screen.queryByTestId('EmployeePersonalInfo')).not.toBeInTheDocument();
-//   expect(screen.queryByTestId('EmployeeAdditionalDetails')).not.toBeInTheDocument();
-
-//   // Update step to 2
-//   useSelector.mockImplementation((selector) => selector({ employee: { step: 2 } }));
-
-//   // Re-render with updated step
-//   renderWithContext(<RenderSteps />);
-
-//   // Assertions for step 2
-//   expect(screen.getByText('Primary Details')).toBeInTheDocument();
-//   expect(screen.getByText('Personal Details')).toBeInTheDocument();
-//   expect(screen.getByText('2')).toBeInTheDocument();
-//   expect(screen.queryByText('Additional Details')).toBeInTheDocument();
-//   expect(screen.queryByTestId('PrimaryEmployeeDetails')).not.toBeInTheDocument();
-//   expect(screen.getByTestId('EmployeePersonalInfo')).toBeInTheDocument();
-//   expect(screen.queryByTestId('EmployeeAdditionalDetails')).not.toBeInTheDocument();
-
-//   // Update step to 3
-//   useSelector.mockImplementation((selector) => selector({ employee: { step: 3 } }));
-
-//   // Re-render with updated step
-//   renderWithContext(<RenderSteps />);
-
-//   // Assertions for step 3
-//   expect(screen.getByText('Primary Details')).toBeInTheDocument();
-//   expect(screen.getByText('Personal Details')).toBeInTheDocument();
-//   expect(screen.getByText('Additional Details')).toBeInTheDocument();
-//   expect(screen.getByText('3')).toBeInTheDocument();
-//   expect(screen.queryByTestId('PrimaryEmployeeDetails')).not.toBeInTheDocument();
-//   expect(screen.queryByTestId('EmployeePersonalInfo')).not.toBeInTheDocument();
-//   expect(screen.getByTestId('EmployeeAdditionalDetails')).toBeInTheDocument();
-// });
+//     default: '../../../assets/Images/placeholder.jpg',
+//   }));
+//   import React from 'react';
+//   import { render, screen, waitFor } from '@testing-library/react';
+//   import { Provider, useSelector } from 'react-redux';
+//   import { BrowserRouter } from 'react-router-dom';
+//   import { store } from '../../../store/store';
+//   import RenderSteps from './RendersSteps';
+  
+//   jest.mock('react-redux', () => ({
+//     useSelector: jest.fn(),
+//   }));
+  
+//   describe('RenderSteps Component', () => {
+//     afterEach(() => {
+//       jest.clearAllMocks();
+//     });
+  
+//     test('renders PrimaryEmployeeDetails when step is 1', async () => {
+//       useSelector.mockReturnValue({ step: 1 });
+//       renderWithContext(<RenderSteps />);
+//       // Wait for the component to appear
+//       await waitFor(() => {
+//         expect(screen.getByTestId('primary-employee-details')).toBeInTheDocument();
+//       });
+//     });
+  
+//     test('renders EmployeePersonalInfo when step is 2', async () => {
+//       useSelector.mockReturnValue({ step: 2 });
+//       renderWithContext(<RenderSteps />);
+//       // Wait for the component to appear
+//       await waitFor(() => {
+//         expect(screen.getByTestId('employee-personal-info')).toBeInTheDocument();
+//       });
+//     });
+  
+//     test('renders EmployeeAdditionalDetails when step is 3', async () => {
+//       useSelector.mockReturnValue({ step: 3 });
+//       renderWithContext(<RenderSteps />);
+//       // Wait for the component to appear
+//       await waitFor(() => {
+//         expect(screen.getByTestId('employee-additional-details')).toBeInTheDocument();
+//       });
+//     });
+  
+//     test('renders correct progress indicator for each step', async () => {
+//       useSelector.mockReturnValue({ step: 2 });
+//       renderWithContext(<RenderSteps />);
+//       await waitFor(() => {
+//         expect(screen.getByText('1').parentElement).toHaveClass('bg-gray-900 border-white text-white');
+//         expect(screen.getByText('2').parentElement).toHaveClass('bg-gray-900 border-white text-white');
+//         expect(screen.getByText('Personal Details').classList).toContain('text-black');
+//         expect(screen.getByText('Additional Details').classList).toContain('text-red-800');
+//       });
+//     });
+//   });
+  
+//   function renderWithContext(element) {
+//     render(
+//       <BrowserRouter>
+//         <Provider store={store}>{element}</Provider>
+//       </BrowserRouter>
+//     );
+//   }
+  

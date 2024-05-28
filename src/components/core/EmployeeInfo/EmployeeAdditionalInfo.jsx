@@ -1,12 +1,24 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 import { formattedDate } from '../../../utils/dateFormatter';
+import { setEditing, setPreEditedEmployeeDetails } from '../../../slices/editingSlice';
+import { setStep } from '../../../slices/employeeSlice';
 
 const EmployeeAdditionalInfo = ({ user }) => {
+    const isEditing = useSelector((state) => state.editing.isEditing);
     const navigate = useNavigate();
     const { loading } = useSelector((state) => state.auth);
+    const dispatch=useDispatch();
+    console.log(user);
+
+    const handleEdit = (user) => {
+        dispatch(setEditing(true));
+        dispatch(setPreEditedEmployeeDetails(user));
+        navigate("/employee/create-update-employee", { state: { employee:user } });
+        dispatch(setStep(2));
+    };
 
     const additionalDetails = [
         {
@@ -23,7 +35,7 @@ const EmployeeAdditionalInfo = ({ user }) => {
         },
         {
             name: 'Role',
-            value: user?.roles[0].role || <p className='text-pink-600'>Add Role</p>,
+            value: user?.roles[0]?.role || <p className='text-pink-600'>Add Role</p>,
         },
         {
             name: 'Join Date',
@@ -59,8 +71,7 @@ const EmployeeAdditionalInfo = ({ user }) => {
                             className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
                                 'bg-yellow-500 text-black'
                             } py-1 px-5 flex items-center`}
-                            onClick={() => navigate(`/employee/${user.employeeId}/edit`)}
-                        >
+                            onClick={() => handleEdit(user)}                        >
                             Edit <FiEdit className='ml-2' />
                         </button>
                     </div>
