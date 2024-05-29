@@ -79,7 +79,12 @@ const EmployeeAdditionalDetails = () => {
 
     const AddEmergencyContactDetailsSubmit=(data)=>{
         const employeeId = employees[0];
-        dispatch(addEmployeeEmergencyContactDetails(editedEmployeeId, data, AccessToken));
+        if(editedEmployeeId) {
+            dispatch(addEmployeeEmergencyContactDetails(editedEmployeeId, data, AccessToken));
+        }
+        else{
+            dispatch(addEmployeeEmergencyContactDetails(employeeId, data, AccessToken));
+        }
     } 
 
     const EditSubmitAddress = (data, index = null) => {
@@ -89,7 +94,13 @@ const EmployeeAdditionalDetails = () => {
         setEditingAddressIndex(null);
     };
     const AddSubmitAddress = (data) => {
-        dispatch(addEmployeeAddressDetails(editedEmployeeId, data, AccessToken));
+        const employeeId = employees[0];
+        if(editedEmployeeId) {
+            dispatch(addEmployeeAddressDetails(editedEmployeeId, data, AccessToken));
+        }
+        else{
+            dispatch(addEmployeeAddressDetails(employeeId, data, AccessToken));
+        }
     setEditingAddressIndex(null);
 };
     

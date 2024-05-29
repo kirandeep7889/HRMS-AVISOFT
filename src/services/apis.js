@@ -30,3 +30,13 @@ export const DepartmentEndpoints={
     UPDATE_DEPARTMENT_API : (departmentId)=>BASE_URL + `/department/${departmentId}`,
     DELETE_DEPARTMENT_API :(departmentId)=> BASE_URL + `/department/${departmentId}`
 }
+
+//Performance Endpoints
+export const PerformanceEndpoints= {
+    VIEW_MANAGER_EMPLOYEES : (managerId)=> BASE_URL + `/employee/searchByManager?managerId=${managerId}`,
+    ADD_PERFORMANCE_REVIEW :(employeeId,reviewerId)=>BASE_URL + `/performance?employeeId=${employeeId}&reviewerId=${reviewerId}`,
+    EMPLOYEE_PERFORMANCE_REVIEWS: (employeeId)=> BASE_URL + `/performance/employee/${employeeId}`,
+    MANAGER_ADDED_REVIEWS : (reviewerId)=> BASE_URL + `/performance/reviewer/${reviewerId}`,
+    EDIT_MANAGER_ADDED_REVIEW : (performanceId)=> BASE_URL + `/performance?performanceId=${performanceId}`,
+    DELETE_MANAGER_ADDED_REVIEW : (performanceId)=> BASE_URL + `/performance?performanceId=${performanceId}`
+}

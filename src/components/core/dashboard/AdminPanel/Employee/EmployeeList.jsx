@@ -19,7 +19,7 @@ const EmployeeList = () => {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const employeesPerPage = 5;
+    const employeesPerPage = 2;
     const navigate = useNavigate();
 
 
@@ -35,8 +35,9 @@ const EmployeeList = () => {
         try {
             setLoading(true);
             const res = await dispatch(EmployeesList(AccessToken, page, employeesPerPage));
-            console.log(res)
-            setEmployees(res.data.Employees);
+            console.log(res);
+            console.log(res?.data);
+            setEmployees(res?.data?.Employees);
             setTotalPages(Math.ceil(res.data.totalCount / employeesPerPage));
         } catch (error) {
             console.error("Error fetching employees", error);
@@ -55,7 +56,7 @@ const EmployeeList = () => {
     const handleEdit = (employee) => {
         dispatch(setEditing(true));
         dispatch(setPreEditedEmployeeDetails(employee));
-        navigate("/employee/create-update-employee", { state: { employee } });
+        navigate("/employee/employee-create-update", { state: { employee } });
         dispatch(setStep(2));
     };
 
@@ -68,7 +69,7 @@ const EmployeeList = () => {
             <div className='m-5 flex items-center justify-between rounded p-5'>
                 <div className='flex items-center text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg'>
                     <span><HiOutlinePlusCircle /></span>
-                    <button><Link to="/employee/create-update-employee">New Employee</Link></button>
+                    <button><Link to="/employee/employee-create-update">New Employee</Link></button>
                 </div>
                 <div className='flex items-center gap-x-7'>
                     <div className='gap-x-2 bg-slate-200 p-2 rounded-md'>

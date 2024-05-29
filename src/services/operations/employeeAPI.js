@@ -300,10 +300,10 @@ export function EditEmployeeBankDetails(employeeId,data,AccessToken) {
       {
          Authorization: `Bearer ${AccessToken}`,
     },
-    // {
-    //   page: page,
-    //   size:size
-    // }
+    {
+      page: page,
+      size:size
+    }
       );
       return response; 
       }catch (err) {

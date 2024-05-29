@@ -13,7 +13,7 @@ function Sidebar() {
       <div className='fixed left-0'>
         <div className='flex min-w-[250px] h-screen flex-col border-r-[3px]  border-r-richblack-700 bg-white py-10 shadow-xl'>
           <div className='flex flex-col justify-center '>
-            <div className='text-lg w-80% border-b-[2px] m-3'>
+            <div className='text-lg w-80% text-center border-b-[2px] m-3'>
                 {menuItems[0]?.label}
             </div>
             {slicedMenuItems.map((link) => (

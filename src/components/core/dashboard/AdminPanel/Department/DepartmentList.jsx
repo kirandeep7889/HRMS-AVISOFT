@@ -102,7 +102,7 @@ const DepartmentList = () => {
                                                 btn2Text: "Cancel",
                                                 btn1Handler: async () => { await dispatch(deleteDepartment(AccessToken, department.departmentId)), refreshPage() },
                                                 btn2Handler: () => setConfirmationModal(null),
-                                            })}
+                                            })} 
                                             className="text-red-600 text-lg"
                                         >
                                             <RiDeleteBin6Line />

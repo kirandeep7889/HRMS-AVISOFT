@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addDepartment, updateDepartment} from '../../../../../services/operations/departmentAPI';
 import { useNavigate, useLocation } from 'react-router-dom';
