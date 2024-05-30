@@ -195,6 +195,39 @@ SEARCHBAR:
 
 The tests focus on verifying the presence and functionality of the search input and search button.
 
+
+
+## 6. edit-employee
+The editEmployee branch is designed to enable administrators and super administrators to edit employee details within the application. 
+
+This feature involves several components and actions to ensure a smooth and dynamic user experience when modifying employee information.
+
+OVERVIEW:-
+
+Redux Slice for Editing State: Manages the state related to editing mode and stores pre-edited employee details.
+
+Dynamic Component Rendering: The CreateUpdateEmployee component dynamically adjusts its behavior and presentation based on whether it is in editing mode or creating a new employee.
+
+Key Components-
+
+1. Redux Slice (editingSlice):
+
+State Structure:
+isEditing: A boolean flag indicating if the application is in editing mode.
+
+preEditedEmployeeDetails: An array storing the details of the employee before editing begins.
+
+2. Action Dispatching:
+
+When an admin or superadmin clicks the edit option on the employee list page, two actions are dispatched:
+setEditing(true): Enables editing mode.
+setPreEditedEmployeeDetails(employeeDetails): Stores the selected employee's details in the state.
+
+3. Dynamic Component (CreateUpdateEmployee):
+
+Dynamic Header: Displays "Edit Employee" or "Create Employee" based on the isEditing flag.
+Pre-filled Form: Utilizes the preEditedEmployeeDetails to pre-fill the form fields when editing an employee.
+
 Key Components of the Testing Strategy:-
 
 Setup Testing Environment: Create a mock store to simulate the application's state and provide necessary context for the component.
@@ -206,42 +239,124 @@ Select Elements: Use queries to select the search input field and the search but
 Assertions: Verify that the search input and button are rendered and present in the document.
 
 
-## 5. Sidebar
+## 7. employee-pages
 
-The Sidebar component is a navigational element that provides easy access to various sections of the application. It dynamically generates its content based on a predefined set of menu items based on the login user's role .
+The employee-pages branch includes two main components: EmployeeList and EmployeeInfo. Here is a brief overview of each:
 
-![image](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/94820880-3b57-4088-869d-0238258991ae)
+EmployeeList Component:-
 
+The EmployeeList component is designed to display a paginated list of employees and provides functionalities to add new employees, export employee data, and navigate through pages.
 
-Features:-
-
-Fixed Position: The sidebar is fixed on the left side of the screen, ensuring it is always visible during navigation.
-
-Dynamic Menu Items: The sidebar dynamically renders menu items and their sub-items based on the data imported from MenuItems.
-
-Collapsible Sub-Menus: It supports collapsible sub-menus for better organization and navigation.
+![Screenshot (60)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/6584582f-0c0e-4e77-81db-d6aa73e820cb)
 
 
-The SidebarLink component is responsible for rendering individual links and their sub-links within the sidebar. It supports expanding and collapsing sub-menus.
+Key Features:
 
-Features:-
+Fetching Employee Data: Utilizes a Redux action EmployeesList to fetch employees from the server, and stores the data in the component's state.
 
-Icon Display: Each menu item is accompanied by an icon.
+Pagination: Manages the current page state and allows navigation between pages using Next and Previous buttons.
 
-Active Route Highlighting: The current active route is highlighted.
+Employee Actions: Includes options to edit or delete an employee. Clicking the edit button navigates to the employee's edit page and sets the editing state.
 
-Expandable Sub-Menus: Menu items with children can be expanded or collapsed.
+Export Options: Provides buttons to export employee data in Excel and CSV formats.
 
+Conditional Rendering: Displays a loading spinner when data is being fetched and a message when no employees are found.
 
-Unit Testing Strategy:-
+EmployeeInfo Component:-
 
-Unit testing for the Sidebar and SidebarLink components ensures that they render correctly and behave as expected under different conditions.
+The EmployeeInfo component displays detailed information about a specific employee, including personal info, additional info, bank info, and address info.
 
-Test Cases-
-
-Rendering Menu Items: Ensure all menu items are rendered.
-Rendering Sub-Menu Items: Verify that sub-menu items are rendered and can be toggled.
-
-Active Route Highlighting: Check that the current route is highlighted correctly.
+![Screenshot (61)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/695e8afd-1bc1-418e-9776-a460251a53fc)
 
 
+Key Features:
+
+Fetching Employee Details: Utilizes the EmployeeSearch action to fetch employee details based on the employee's name from the URL parameters.
+
+Conditional Rendering: Shows a loading spinner while fetching data and displays the employee information once it is available.
+
+Nested Components: Renders several subcomponents (EmployeePersonalInfo, EmployeeAdditionalInfo, EmployeeBankInfo, EmployeeAddressInfo) to display detailed information about the employee.
+
+
+
+## 8. DEPARTMENT
+
+This branch consists of two main components for managing department information:
+
+1. CreateUpdateDepartment Component
+
+Purpose: This component is used for creating new departments or updating existing ones.
+
+![Screenshot (58)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/93df302a-5d00-459f-8ac3-ed452f032664)
+
+
+Functionality:
+Form Handling: Uses react-hook-form to manage form state and validation.
+
+State Management: Utilizes local state for managing search results and selected manager, and Redux for accessing authentication tokens and dispatching actions.
+
+API Integration: Dispatches addDepartment and updateDepartment actions to interact with the backend.
+
+
+Employee Search: Provides a search function to find employees and assign them as department managers.
+
+Conditional Rendering: Displays different content based on whether the form is in create or edit mode.
+
+2. DepartmentList Component
+
+Purpose: This component displays a list of departments and provides options to add, edit, or delete departments.
+
+![Screenshot (59)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/8f7f943e-d3d5-4b16-887e-11baab5a56af)
+
+
+Functionality:
+Data Fetching: Fetches the list of departments from the backend when the component mounts.
+
+State Management: Uses local state to manage the list of departments and confirmation modal visibility, and Redux for authentication and dispatching actions.
+
+Navigation: Provides navigation to the CreateUpdateDepartment component for adding or editing departments.
+
+Deletion Confirmation: Includes a confirmation modal for deleting departments, ensuring actions are confirmed by the user.
+
+These components together form the Department Branch of the application, enabling full CRUD operations on department data.
+
+
+UNIT TESTING  STRATEGY :-
+
+CreateUpdateDepartment Component Tests
+
+Rendering Tests:
+
+Objective: Verify that all the input fields, placeholders, labels, and inner texts are rendered correctly.
+Details:
+
+Ensure the "Department Name" input field and its label are present.
+
+Ensure the "Department Description" input field and its label are present.
+Ensure the "Add Manager" input field and its label are present.
+Check for the placeholder text in the employee search input field.
+
+Event Simulation Tests:
+
+Objective: Test the functionality of user interactions.
+Details:
+
+Simulate a user typing in the employee search field to verify the search functionality.
+
+DepartmentList Component Tests
+
+Rendering Tests:
+
+Objective: Verify that all the static elements and headers are rendered correctly.
+Details:
+Ensure the "Department List" title is rendered.
+
+Check for the "Add Department" button.
+
+Verify the presence of headers for "Department Name," "Department Manager," "Department Description," and "Action" columns.
+
+Helper Functions
+
+renderWithContext:
+Purpose: A utility function to render components with necessary context providers, such as Provider for Redux store and BrowserRouter for routing.
+Usage: Ensures that the components are tested within the same context as they would be in the actual application.
