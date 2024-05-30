@@ -51,6 +51,9 @@ functionality for different user roles (superadmin, admin,
 and employee). Users can select their role from a dropdown
 and log in with their respective accounts.
 
+![Screenshot (49)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/6d1a069a-d805-4a99-8fd8-e37affbc8d78)
+
+
 
  UNIT TESTING STRATEGY:
  
@@ -75,6 +78,9 @@ The add-employee-page branch provides the functionality to add a new employee in
 
 This step captures the employee's primary information, including email, password, and role.
 Database Entry: The initial entry for the user is created in the database based on this information.
+
+![Screenshot (50)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/9b34a3d9-5194-4e02-8f52-553469bc9dfa)
+
 Unit Testing Strategy for Step 1
 The unit tests for the PrimaryEmployeeDetails component are designed to verify that the form fields are rendered correctly and function as expected. Key aspects of the testing strategy include:
 
@@ -92,6 +98,8 @@ Form Fields Presence: Confirm that all form fields (email, password, role select
 Step 2: Personal Information:-
 
 The add-employee-page branch's second step is focused on gathering personal information about the employee. The EmployeePersonalInfo component is responsible for collecting details such as first name, last name, department, position, and other personal identifiers like PAN, Aadhar, and UAN numbers. 
+![Screenshot (51)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/6098fcdb-67bc-4c05-88e0-7bbe2249f5b3)
+
 
 The unit tests for the EmployeePersonalInfo component ensure that all form fields are correctly rendered with appropriate placeholders, labels, and select options. The testing strategy includes:
 
@@ -102,7 +110,10 @@ Buttons: Ensuring that the submit and navigation buttons (e.g., "Add" and "Next 
 
  Step 3: Additional Details:-
  
-The third step in the add-employee-page branch is focused on capturing additional details about the employee, including emergency contact information, address details, and bank account details. The EmployeeAdditionalDetails component manages these inputs. Here's a brief explanation of the unit testing strategy for this step:
+The third step in the add-employee-page branch is focused on capturing additional details about the employee, including emergency contact information, address details, and bank account details. The EmployeeAdditionalDetails component manages these inputs. 
+![Screenshot (52)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/62852119-a41e-4c09-bd85-973f98a8409d)
+
+Here's a brief explanation of the unit testing strategy for this step:
 Unit Testing Strategy
 The unit tests for the EmployeeAdditionalDetails component ensure that all form fields are correctly rendered with appropriate placeholders, labels, and that form submission works as expected. The testing strategy includes:
 
