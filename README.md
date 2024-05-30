@@ -32,6 +32,15 @@ The application will be available at http://localhost:5173.
 1.Kirandeep Singh
 
 2.Deep Singh Yadav
+
+## PROJECT STRUCTURE : 
+
+A brief overview of the project structure:-
+
+
+![image](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/1b38c016-9311-400c-93cd-927d241f0f39)
+
+
 ## Branches Information:
 
 1. main: The stable version of the project.
@@ -123,4 +132,116 @@ Field Labels: Ensuring that labels for each form field are rendered with the cor
 
 Form Submission: Testing that the form handles submissions correctly, including interaction with mocked API calls.
 
-Conditional Rendering: Checking that form fields are pre-filled with existing data when in edit mode.                       
+Conditional Rendering: Checking that form fields are pre-filled with existing data when in edit mode.                  
+
+
+
+## 3. Navbar
+
+![Screenshot (55)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/2c242200-7285-48bc-8f6d-8fa771078ab6)
+
+Features:-
+
+1. Logo Display: The company logo is displayed and linked to the homepage.
+
+2. Search Bar: Allows users to search for employee information by name.
+Uses react-hook-form for form handling.
+Upon submitting a valid search query, it navigates to the employee info page.
+
+3. Authentication Check: Displays different options based on user authentication status.
+If the user is not authenticated, a "Log In" button is shown.
+If the user is authenticated, a profile dropdown is displayed.
+
+Unit Testing Strategy:-
+
+Unit testing ensures that each part of the NavBar component works as expected. The tests cover rendering elements, form functionality, and conditional rendering based on authentication status.
+
+Test Cases:-
+Rendering Logo: Ensures the company logo is rendered correctly.
+Rendering Search Input and Button: Checks if the search input field and button are present.
+Rendering Log In Button: Verifies the Log In button appears when the user is not authenticated.
+Rendering ProfileDropDown: Ensures the profile dropdown is shown when the user is authenticated.
+
+
+## 4.searchbar
+
+The employee search functionality allows users to quickly find and view employee details by entering the employee's name into a search bar located in the navigation bar. This feature streamlines access to employee information and enhances the user experience.
+
+How It Works
+Locate the Search Bar: The search bar is prominently placed in the navigation bar at the top of the application interface.
+Enter Employee Name: Users can type the name of the employee they wish to find into the search bar.
+
+
+Initiate Search: By clicking the "Search" button, the application processes the query.
+
+
+Display Employee Details: If a matching employee is found, their details are displayed on a new page. This includes personal information (name, email, contact number, date of birth, gender) and additional details (department, position, employee code, join date).
+
+
+Example Usage-
+
+Search Bar in Navigation Bar:
+
+![Screenshot (53)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/b60255e3-8b81-4598-bba3-6cd6c88f5ca8)
+
+Employee Info Page:
+
+ ![Screenshot (54)](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/f85cbc55-5ec6-4948-a4ba-7e45a147fe5e)
+
+
+UNIT TESTING STRATEGY:-
+
+SEARCHBAR:
+
+The tests focus on verifying the presence and functionality of the search input and search button.
+
+Key Components of the Testing Strategy:-
+
+Setup Testing Environment: Create a mock store to simulate the application's state and provide necessary context for the component.
+
+Render Component: Use a custom render function to render the NavBar component within the test environment.
+
+Select Elements: Use queries to select the search input field and the search button.
+
+Assertions: Verify that the search input and button are rendered and present in the document.
+
+
+## 5. Sidebar
+
+The Sidebar component is a navigational element that provides easy access to various sections of the application. It dynamically generates its content based on a predefined set of menu items based on the login user's role .
+
+![image](https://github.com/kirandeep7889/HRMS-AVISOFT/assets/124796483/94820880-3b57-4088-869d-0238258991ae)
+
+
+Features:-
+
+Fixed Position: The sidebar is fixed on the left side of the screen, ensuring it is always visible during navigation.
+
+Dynamic Menu Items: The sidebar dynamically renders menu items and their sub-items based on the data imported from MenuItems.
+
+Collapsible Sub-Menus: It supports collapsible sub-menus for better organization and navigation.
+
+
+The SidebarLink component is responsible for rendering individual links and their sub-links within the sidebar. It supports expanding and collapsing sub-menus.
+
+Features:-
+
+Icon Display: Each menu item is accompanied by an icon.
+
+Active Route Highlighting: The current active route is highlighted.
+
+Expandable Sub-Menus: Menu items with children can be expanded or collapsed.
+
+
+Unit Testing Strategy:-
+
+Unit testing for the Sidebar and SidebarLink components ensures that they render correctly and behave as expected under different conditions.
+
+Test Cases-
+
+Rendering Menu Items: Ensure all menu items are rendered.
+Rendering Sub-Menu Items: Verify that sub-menu items are rendered and can be toggled.
+
+Active Route Highlighting: Check that the current route is highlighted correctly.
+
+
