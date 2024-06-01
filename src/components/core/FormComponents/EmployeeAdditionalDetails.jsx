@@ -109,7 +109,13 @@ const EmployeeAdditionalDetails = () => {
             dispatch(EditEmployeeBankDetails(editedEmployeeId, data, AccessToken));
     };
     const AddSubmitBank = (data) => {
+        const employeeId = employees[0];
+        if(editedEmployeeId){
         dispatch(addEmployeeBankDetails(editedEmployeeId, data, AccessToken));
+        }
+        else {
+            dispatch(addEmployeeBankDetails(employeeId, data, AccessToken));
+        }
     };
 
     const handleEditAddress = (index) => {

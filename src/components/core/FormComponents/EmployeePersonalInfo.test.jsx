@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-// Mock the image import
 jest.mock('../../../assets/Images/placeholder.jpg', () => ({
   default: 'test-file-stub',
 }));

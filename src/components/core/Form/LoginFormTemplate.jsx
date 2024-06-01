@@ -21,7 +21,7 @@ const LoginFormTemplate = () => {
      };
 
   return (
-    <div className=' w-full h-[580px] flex flex-col justify-center  items-center mt-20'>
+    <div className=' w-full h-[580px] mb-10 flex flex-col justify-center  items-center mt-20'>
     <div className='flex justify-center'>
         <img height={100} width={100}  src='https://avisoft.io/banner-images/about-new.svg'/>
     </div>

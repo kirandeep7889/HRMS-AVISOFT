@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { PerformanceEndpoints } from "../apis";
 import { apiConnector } from "../apiconnector";
-const {ADD_PERFORMANCE_REVIEW,VIEW_MANAGER_EMPLOYEES,EMPLOYEE_PERFORMANCE_REVIEWS,MANAGER_ADDED_REVIEWS,EDIT_MANAGER_ADDED_REVIEW,DELETE_MANAGER_ADDED_REVIEW}=PerformanceEndpoints
+const {ADD_PERFORMANCE_REVIEW,VIEW_MANAGER_EMPLOYEES,ALL_REVIEWS,EMPLOYEE_PERFORMANCE_REVIEWS,MANAGER_ADDED_REVIEWS,EDIT_MANAGER_ADDED_REVIEW,DELETE_MANAGER_ADDED_REVIEW}=PerformanceEndpoints
 
 export const ViewManagerEmployees = (managerId,AccessToken) => {
   return async (dispatch) => {
@@ -14,6 +14,7 @@ export const ViewManagerEmployees = (managerId,AccessToken) => {
             Authorization: `Bearer ${AccessToken}`
           }
         )
+        console.log(response)
         return response;
       } catch (error) {
         toast.error("Error Fetching Employees");
@@ -53,7 +54,30 @@ export const addPerformanceReview = (reviewerId,employeeId,data,AccessToken,navi
     };
   };
   
-
+  export const allReviews = (AccessToken) => {
+    return async (dispatch) => {
+      try {
+   
+        const response = await apiConnector(
+          "GET",
+          ALL_REVIEWS,
+          null,
+          {
+            Authorization: `Bearer ${AccessToken}`
+          }
+        );
+        console.log(response);
+        if (response?.status!=200) throw new Error(response.data.message);
+        else{
+          toast.success("REVIEWS LOADED SUCCESSFULLY");
+          return response;
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error("FAILED LOADING REVIEWS");
+      }
+    };
+  };
   export const EmployeePerformanceReviews = (employeeId,AccessToken) => {
     return async (dispatch) => {
       try {
@@ -71,6 +95,7 @@ export const addPerformanceReview = (reviewerId,employeeId,data,AccessToken,navi
         if (response?.status!=200) throw new Error(response.data.message);
         else{
           toast.success("REVIEWS LOADED SUCCESSFULLY");
+          return response;
         }
       } catch (err) {
         console.log(err);

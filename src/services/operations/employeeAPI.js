@@ -5,6 +5,7 @@ import { apiConnector } from "../apiconnector.js";
 const {
   ADD_EMPLOYEE_API
   ,EMPLOYEE_LIST_API,
+   DELETE_EMPLOYEE_API,
   UPLOAD_EMPLOYEE_IMAGE_API,
   ADD_EMPLOYEE_PERSONAL_DETAILS_API,
   UPDATE_EMPLOYEE_PERSONAL_DETAILS_API,
@@ -37,7 +38,7 @@ export function addEmployee(employeeData) {
           Authorization: `Bearer ${AccessToken}`,
       });
         console.log(response);
-        dispatch(addEmployees(response?.data?.employeeId)); 
+        dispatch(addEmployees(response?.data?.newUser?.userId)); 
         toast.success("Employee Created Successfully");
         dispatch(setStep(2))
       } catch (error) {
@@ -311,3 +312,24 @@ export function EditEmployeeBankDetails(employeeId,data,AccessToken) {
       }  
     }
   }
+
+
+  export function EmployeeDelete(userId,AccessToken) {
+    return async(dispatch) => {
+      try{
+        console.log(userId)
+      const response = await apiConnector("DELETE", DELETE_EMPLOYEE_API(userId),
+      null,
+      {
+         Authorization: `Bearer ${AccessToken}`,
+    },
+      );
+      console.log(response);
+      return response; 
+      }catch (err) {
+        console.log(err)
+      }  
+    }
+  }
+
+

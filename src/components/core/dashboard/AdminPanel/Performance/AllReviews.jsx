@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { EmployeePerformanceReviews } from "../../../../../services/operations/performanceAPI";
+import { allReviews } from "../../../../../services/operations/performanceAPI";
 import toast from "react-hot-toast";
 import Spinner from "../../../../common/Spinner";
 
-const ViewPerformance = () => {
+const AllReviews = () => {
   const [reviews, setReviews] = useState([]);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const { user } = useSelector((state) => state.profile);
   const { AccessToken } = useSelector((state) => state.auth);
-  const employeeId = user?.userId;
 
   useEffect(() => {
-    const employeeReviews = async () => {
-      const response = await dispatch(
-        EmployeePerformanceReviews(employeeId, AccessToken)
-      );
+    const getAllReviews = async () => {
+      const response = await dispatch(allReviews(AccessToken));
       console.log(response);
-      if (response?.status === 200) {
-        setReviews(response?.data || []);
+      if (response?.status === 200 && response?.data?.success) {
+        setReviews(response.data.performanceList || []);
         setLoading(false);
       } else {
         toast.error("Error Loading Reviews");
       }
     };
-    employeeReviews();
-  }, [employeeId, dispatch, AccessToken]);
+    getAllReviews();
+  }, [dispatch, AccessToken]);
 
   const getRatingColor = (rating) => {
     switch (rating) {
@@ -67,13 +63,13 @@ const ViewPerformance = () => {
         <div className="pb-9 bg-slate-100 shadow-md rounded-md mb-5">
           <div className="p-5 flex items-center justify-between">
             <div className="text-xl text-slate-600 font-semibold">
-              View Performance Review
+              All Performance Reviews
             </div>
             <div>
               <p className="text-slate-950 text-xl left-6 font-semibold">
                 Home / Dashboard /
                 <span className="text-yellow-700">
-                  &nbsp; View Performance Review
+                  &nbsp; All Performance Reviews
                 </span>
               </p>
             </div>
@@ -87,6 +83,9 @@ const ViewPerformance = () => {
                   <tr className="bg-gray-200">
                     <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
                       Reviewed By
+                    </th>
+                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                      Employee Name
                     </th>
                     <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
                       Rating
@@ -109,7 +108,12 @@ const ViewPerformance = () => {
                           : "bg-white"
                       }
                     >
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">{`${review.reviewerFirstName} ${review.reviewerLastName}`}</td>
+                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                        {`${review.reviewerFirstName} ${review.reviewerLastName}`}
+                      </td>
+                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                        {`${review.firstName} ${review.lastName}`}
+                      </td>
                       <td
                         className={`px-3 py-4 border-b border-slate-200 text-center ${getRatingColor(
                           review.rating
@@ -135,4 +139,4 @@ const ViewPerformance = () => {
   );
 };
 
-export default ViewPerformance;
+export default AllReviews;

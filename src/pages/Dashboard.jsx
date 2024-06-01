@@ -8,7 +8,7 @@ function Dashboard() {
    
 
   return (
-    <div className='h-screen'>
+    <div className=''>
       <div className=' relative'>
         <NavBar backgroundColor={1}/>
       </div>
