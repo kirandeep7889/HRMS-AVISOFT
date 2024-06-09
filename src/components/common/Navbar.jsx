@@ -1,71 +1,94 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import LogBtn from '../core/Navbar/LogBtn';
-import { useSelector } from 'react-redux';
-import ProfileDropDown from '../core/Navbar/ProfileDropDown';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Moon from "../../assets/Images/Moon.svg";
+import Sun from "../../assets/Images/Sun.svg";
+import EmployeeInfo from "../../pages/EmployeeInfo";
+import { toggleDarkMode } from "../../slices/themeSlice";
+import LogBtn from "../core/Navbar/LogBtn";
+import ProfileDropDown from "../core/Navbar/ProfileDropDown";
 
 const NavBar = () => {
   const { AccessToken } = useSelector((state) => state.auth);
+  const { darkMode } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [userData, setUserData] = useState(null);
-  const navigate=useNavigate();
-
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const searchQuery = data.searchQuery.trim();
+    console.log("Searching for:", data.searchQuery);
     try {
-      if (searchQuery) {
-        navigate(`/employee-info/${searchQuery}`);
-      }
-      else {
-        toast.error("Enter Valid search query")
-      }
+      navigate(`/employee-info/${data.searchQuery}`);
     } catch (error) {
-        toast.error("Error fetching user data");
+      console.error("Error fetching user data:", error);
     }
   };
-    console.log(userData)
+
+  const handleThemeToggle = () => {
+    dispatch(toggleDarkMode());
+  };
+
   return (
-    <div className={`fixed w-full z-[9999] border-b-[1px] shadow-lg bg-white top-0`}>
-      <div className='flex h-30 items-center justify-between'>
-        <div className='m-2'>
+    <div
+      className={`fixed w-full rounded z-[9999] border-b-[1px] shadow-lg ${
+        darkMode ? "bg-gray-800 border-b-gray-200" : "bg-white"
+      } top-0`}
+    >
+      <div className="flex h-30 items-center justify-between">
+        <div className="m-2">
           <Link to="/">
-            <img src='https://avisoft.io/logo.svg' alt="Logo"/>
+            <img src="https://avisoft.io/logo.svg" alt="Logo" />
           </Link>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className='ml-10 flex items-center'>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="ml-10 flex items-center"
+        >
           <div className="flex items-center border-[2px] rounded-md">
-            <span className="text-gray-500 size-10 p-3"><FaSearch /></span>
+            <span className="text-gray-500 size-10 p-3">
+              <FaSearch />
+            </span>
             <input
               type="text"
               placeholder="Search Employee.."
-              className="px-4 py-2 pl-0 rounded-lg border border-gray-300 focus:outline-none border-none bg-white"
+              className={`px-4 py-2 pl-0 rounded-lg border border-gray-300 focus:outline-none border-none  ${
+                darkMode ? "bg-gray-800 text-white" : "bg-white"
+              }`}
               {...register("searchQuery")}
             />
           </div>
-          <button type='submit' className='p-2 bg-blue-600 rounded hover:cursor-pointer text-white'>
+          <button
+            type="submit"
+            className={`p-2  rounded hover:cursor-pointer text-white ${
+              darkMode ? "primary-gradient" : "bg-blue-700"
+            }`}
+          >
             Search
           </button>
         </form>
-        <div>
-          {
-            AccessToken === null ? (
-              <div className='flex gap-x-4 mr-10'  >
+        <div className="flex justify-between items-center gap-2">
+          <button onClick={handleThemeToggle} className="mt-1">
+            {darkMode ? (
+              <img className="active-theme" src={Sun} height={30} width={30} />
+            ) : (
+              <img className="active-theme" src={Moon} height={30} width={30} />
+            )}
+          </button>
+          <div className="">
+            {AccessToken === null ? (
+              <div className="flex gap-x-4 mr-5">
                 <LogBtn link={"/login"} text={"Log In"} />
               </div>
             ) : (
-              <div data-testid="profile-dropdown">
-                <ProfileDropDown />
-              </div>
-            )
-          }
+              <ProfileDropDown />
+            )}
+          </div>
         </div>
       </div>
-
+      {userData && <EmployeeInfo userData={userData} />}
     </div>
   );
 };

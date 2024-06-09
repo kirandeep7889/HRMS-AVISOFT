@@ -13,8 +13,9 @@ const CreateLeave = () => {
   const navigate = useNavigate();
   const { AccessToken } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
-  const employeeId = user?.userId;
+  const employeeId = user?.employeeId;
   const dispatch = useDispatch();
+  const { darkMode } = useSelector((state) => state.theme);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -24,11 +25,25 @@ const CreateLeave = () => {
   };
 
   return (
-    <div className="pb-9 bg-slate-100 rounded-md mb-5 ">
+    <div
+      className={`pb-9 mt-5 ${
+        darkMode ? " bg-slate-700" : "bg-slate-100"
+      } rounded-md mb-5`}
+    >
       <div className="p-5 flex items-center justify-between">
-        <div className="text-xl text-slate-600 font-semibold">New Leave</div>
+        <div
+          className={`text-xl ${
+            darkMode ? "text-white" : "text-slate-600"
+          } font-semibold`}
+        >
+          New Leave
+        </div>
         <div>
-          <p className="text-slate-950 text-xl left-6 font-semibold">
+          <p
+            className={`text-xl left-6 font-semibold ${
+              darkMode ? "text-white" : "text-slate-950"
+            }`}
+          >
             Home / Dashboard /<span className="text-yellow-700">New Leave</span>
           </p>
         </div>
@@ -43,14 +58,18 @@ const CreateLeave = () => {
           <div className="mt-4">
             <label
               htmlFor="leaveType"
-              className="block text-sm font-semibold text-slate-900 mb-1"
+              className={`block text-sm font-semibold ${
+                darkMode ? "text-white" : "text-slate-900"
+              } mb-1`}
             >
               Leave Type<sup className="text-red-900">*</sup>
             </label>
             <select
               id="leaveType"
               {...register("leaveType", { required: true })}
-              className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800"
+              className={`bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800 ${
+                darkMode ? "bg-gray-500 text-white" : ""
+              }`}
               data-testid="leave-type-select"
             >
               <option value="">Select Leave Type</option>
@@ -58,13 +77,19 @@ const CreateLeave = () => {
               <option value="SICK">Medical Leave</option>
             </select>
             {errors.leaveType && (
-              <span className="text-red-600">This field is required</span>
+              <span
+                className={`text-red-600 ${darkMode ? "text-red-400" : ""}`}
+              >
+                This field is required
+              </span>
             )}
           </div>
           <div className="mt-4">
             <label
               htmlFor="numberOfDays"
-              className="block text-sm font-semibold text-slate-900 mb-1"
+              className={`block text-sm font-semibold ${
+                darkMode ? "text-white" : "text-slate-900"
+              } mb-1`}
             >
               Number of Days<sup className="text-red-900">*</sup>
             </label>
@@ -72,7 +97,9 @@ const CreateLeave = () => {
               type="number"
               id="numberOfDays"
               {...register("numberOfDays", { required: true, min: 1 })}
-              className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800"
+              className={`bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800 ${
+                darkMode ? "bg-gray-500 text-white" : ""
+              }`}
               placeholder="Enter Number of Days"
               data-testid="number-of-days-input"
             />
@@ -87,7 +114,9 @@ const CreateLeave = () => {
           <div className="mt-4">
             <label
               htmlFor="startDate"
-              className="block text-sm font-semibold text-slate-900 mb-1"
+              className={`block text-sm font-semibold ${
+                darkMode ? "text-white" : "text-slate-900"
+              } mb-1`}
             >
               Start Leave Date<sup className="text-red-900">*</sup>
             </label>
@@ -95,7 +124,9 @@ const CreateLeave = () => {
               type="date"
               id="startDate"
               {...register("startDate", { required: true })}
-              className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800"
+              className={`bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800 ${
+                darkMode ? "bg-gray-500 text-white" : ""
+              }`}
               data-testid="start-date-input"
             />
             {errors.startDate && (
@@ -105,7 +136,9 @@ const CreateLeave = () => {
           <div className="mt-4">
             <label
               htmlFor="endDate"
-              className="block text-sm font-semibold text-slate-900 mb-1"
+              className={`block text-sm font-semibold ${
+                darkMode ? "text-white" : "text-slate-900"
+              } mb-1`}
             >
               End Leave Date<sup className="text-red-900">*</sup>
             </label>
@@ -113,7 +146,9 @@ const CreateLeave = () => {
               type="date"
               id="endDate"
               {...register("endDate", { required: true })}
-              className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800"
+              className={`bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800 ${
+                darkMode ? "bg-gray-500 text-white" : ""
+              }`}
               data-testid="end-date-input"
             />
             {errors.endDate && (
@@ -126,14 +161,18 @@ const CreateLeave = () => {
           <div className="mt-4">
             <label
               htmlFor="leaveDetails"
-              className="block text-sm font-semibold text-slate-900 mb-1"
+              className={`block text-sm font-semibold ${
+                darkMode ? "text-white" : "text-slate-900"
+              } mb-1`}
             >
               Leave Details<sup className="text-red-900">*</sup>
             </label>
             <textarea
               id="reason"
               {...register("reason", { required: true })}
-              className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800"
+              className={`bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b-[1px] border-slate-800 ${
+                darkMode ? "bg-gray-500 text-white" : ""
+              }`}
               placeholder="Enter Leave Details"
               data-testid="leave-details-input"
             ></textarea>
@@ -145,7 +184,9 @@ const CreateLeave = () => {
 
         <button
           type="submit"
-          className="bg-slate-900 text-white font-semibold py-2 px-4 rounded hover:bg-slate-800 mt-10"
+          className={` mt-5 text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+            darkMode ? "primary-gradient" : "bg-blue-700 text-white"
+          } py-1 px-5`}
           data-testid="submit-button"
         >
           Submit

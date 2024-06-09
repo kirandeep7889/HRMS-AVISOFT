@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { HiOutlinePlusCircle } from "react-icons/hi";
+import { FaRegEdit } from "react-icons/fa";
 import { GrDocumentCsv } from "react-icons/gr";
+import { HiOutlinePlusCircle } from "react-icons/hi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   EmployeeDelete,
   EmployeesList,
 } from "../../../../../services/operations/employeeAPI";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { FaRegEdit } from "react-icons/fa";
-import ExportDataJSON from "../../../../../utils/ExportFromJson";
-import Spinner from "../../../../common/Spinner";
-import { deleteEmployee, setStep } from "../../../../../slices/employeeSlice";
 import {
   setEditing,
   setPreEditedEmployeeDetails,
 } from "../../../../../slices/editingSlice";
+import { setStep } from "../../../../../slices/employeeSlice";
+import ExportDataJSON from "../../../../../utils/ExportFromJson";
 import ConfirmationModal from "../../../../common/ConfirmationModal";
+import Spinner from "../../../../common/Spinner";
+import axios from "axios";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
   const { AccessToken } = useSelector((state) => state.auth);
+  const { darkMode } = useSelector((state) => state.theme);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -30,7 +32,8 @@ const EmployeeList = () => {
   const employeesPerPage = 5;
   const navigate = useNavigate();
 
-  console.log(currentPage);
+
+
   useEffect(() => {
     fetchEmployeesList(currentPage);
   }, [currentPage]);
@@ -41,9 +44,7 @@ const EmployeeList = () => {
       const res = await dispatch(
         EmployeesList(AccessToken, page, employeesPerPage)
       );
-      console.log(res);
-      console.log(res?.data);
-      setEmployees(res?.data?.Employees);
+      setEmployees(res?.data?.Users);
       setTotalPages(Math.ceil(res.data.totalCount / employeesPerPage));
     } catch (error) {
       console.error("Error fetching employees", error);
@@ -56,12 +57,20 @@ const EmployeeList = () => {
   };
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    setCurrentPage((prevPage) =>(prevPage -  1));
   };
 
-  const handleEdit = (employee) => {
+  const handleEdit = async (employee) => {
+    console.log(employee?.employeeId)
+      const response = await axios.get(`http://ec2-16-16-249-120.eu-north-1.compute.amazonaws.com/api/v1/employee/${employee.employeeId}`,{
+        headers:{
+        Authorization : `Bearer ${AccessToken}`
+    }});
+    const editedEmployeeData=response?.data?.Employee;
+
+    console.log(editedEmployeeData);
     dispatch(setEditing(true));
-    dispatch(setPreEditedEmployeeDetails(employee));
+    dispatch(setPreEditedEmployeeDetails(editedEmployeeData));
     navigate("/employee/employee-create-update", { state: { employee } });
     dispatch(setStep(2));
   };
@@ -71,26 +80,46 @@ const EmployeeList = () => {
   }
 
   return (
-    <div className="h-screen">
+    <div
+      className={` h-lvh mb-2 rounded-md ${
+        darkMode ? " text-white" : ""
+      }`}
+    >
       {loading ? (
-        <div className="absolute grid place-content-center h-[70%] w-[85%]">
+        <div className="absolute grid place-content-center  h-[70%] w-[85%]">
           <Spinner />
         </div>
       ) : (
-        <div className="pb-9 bg-slate-100 rounded  h-screen ">
+        <div
+          className={`pb-9  ${
+            darkMode ? "bg-gray-800" : "bg-slate-100"
+          } rounded mt-10`}
+        >
           <div className="p-5 flex items-center justify-between">
-            <div className="text-xl text-slate-600 font-semibold">
+            <div
+              className={`text-xl ${
+                darkMode ? "text-white" : "text-slate-600"
+              } font-semibold`}
+            >
               Employee List
             </div>
             <div>
-              <p className="text-slate-950 text-xl left-6 font-semibold">
+              <p
+                className={`text-xl left-6 font-semibold ${
+                  darkMode ? "text-white" : "text-slate-950"
+                }`}
+              >
                 Home / Dashboard /
                 <span className="text-yellow-700">Employee List</span>
               </p>
             </div>
           </div>
           <div className="m-5 flex items-center justify-between rounded p-5">
-            <div className="flex items-center text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg">
+            <div
+              className={`flex items-center   ${
+                darkMode ? "primary-gradient" : ""
+              } text-white gap-x-1 bg-red-600 w-fit p-2 rounded-lg`}
+            >
               <span>
                 <HiOutlinePlusCircle />
               </span>
@@ -99,7 +128,11 @@ const EmployeeList = () => {
               </button>
             </div>
             <div className="flex items-center gap-x-7">
-              <div className="gap-x-2 bg-slate-200 p-2 rounded-md">
+              <div
+                className={`gap-x-2 ${
+                  darkMode ? " bg-blue-800" : "bg-slate-200"
+                } p-2 rounded-md`}
+              >
                 <button
                   onClick={() => ExportDataJSON(employees, "Employee", "xls")}
                   data-testid="export-excel-button"
@@ -112,7 +145,9 @@ const EmployeeList = () => {
               </div>
               <div
                 onClick={() => ExportDataJSON(employees, "Employee", "csv")}
-                className="flex items-center gap-x-2 bg-slate-300 p-2 rounded-md"
+                className={`gap-x-2 ${
+                  darkMode ? " bg-blue-800" : "bg-slate-200"
+                } p-2 rounded-md`}
                 data-testid="export-csv-button"
               >
                 <button>
@@ -124,10 +159,24 @@ const EmployeeList = () => {
           </div>
           <div className="p-5">
             {employees?.length > 0 ? (
-              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <div>
-                  <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-black uppercase bg-slate-200 ">
+              <div className="relative overflow-x-auto shadow-md rounded-md">
+                <div
+                  className={` p-5  ${
+                    darkMode ? " bg-slate-700" : "bg-slate-200"
+                  }`}
+                >
+                  <table
+                    className={`w-full text-sm rounded-md  text-left rtl:text-right ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    } dark:text-gray-400`}
+                  >
+                    <thead
+                      className={` text-base  border-b-[1px] ${
+                        darkMode
+                          ? "text-gray-200 bg-gray-800"
+                          : "text-black bg-slate-300"
+                      }`}
+                    >
                       <tr>
                         <th
                           scope="col"
@@ -160,13 +209,6 @@ const EmployeeList = () => {
                         <th
                           scope="col"
                           className="px-6 py-3"
-                          data-testid="role-header"
-                        >
-                          Employee Position
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3"
                           data-testid="action-header"
                         >
                           Action
@@ -179,8 +221,16 @@ const EmployeeList = () => {
                           key={employee?.employeeId}
                           className={
                             index % 2 === 0
-                              ? "bg-white text-black"
-                              : "bg-gray-100 text-black"
+                              ? `${
+                                  darkMode
+                                    ? "bg-gray-800 text-white"
+                                    : "bg-white text-black"
+                                }`
+                              : `${
+                                  darkMode
+                                    ? "bg-gray-800 text-white"
+                                    : "bg-gray-100 text-black"
+                                }`
                           }
                         >
                           <td scope="row" className="px-6 py-4 w-10">
@@ -193,25 +243,31 @@ const EmployeeList = () => {
                             </div>
                           </td>
                           <td scope="row" className="px-6 py-4">
-                            <Link to={`/employee-info/${employee?.firstName}`}>
-                              {`${employee?.firstName} ${employee.lastName}`}
+                            <Link
+                              to={`/employee-info/${employee?.employeeName}`}
+                              className={`${
+                                darkMode ? "text-yellow-500" : "text-blue-500"
+                              }`}
+                            >
+                              {employee?.employeeName}
                             </Link>
                           </td>
                           <td className="px-6 py-4">{employee?.email}</td>
                           <td className="px-6 py-4">
                             {employee?.employeeCode}
                           </td>
-                          <td className="px-6 py-4">
-                            {employee?.position
-                              ? employee?.position
-                              : "Manager"}
-                          </td>
                           <td className="px-6 py-4 flex gap-x-2">
                             <button onClick={() => handleEdit(employee)}>
-                              <FaRegEdit />
+                              <FaRegEdit
+                                className={`${
+                                  darkMode ? "text-yellow-500" : "text-blue-500"
+                                }`}
+                              />
                             </button>
                             <button
-                              className="text-red-600 text-lg"
+                              className={`${
+                                darkMode ? "text-red-400" : "text-red-600"
+                              } text-lg`}
                               onClick={() =>
                                 setConfirmationModal({
                                   text1: "Are you sure?",
@@ -222,10 +278,11 @@ const EmployeeList = () => {
                                   btn1Handler: async () => {
                                     await dispatch(
                                       EmployeeDelete(
-                                        employee?.employeeId,
+                                        employee?.userId,
                                         AccessToken
                                       )
                                     );
+                                    refreshPage();
                                   },
                                   btn2Handler: () => setConfirmationModal(null),
                                 })
@@ -242,14 +299,18 @@ const EmployeeList = () => {
                     <button
                       onClick={handlePreviousPage}
                       disabled={currentPage === 0}
-                      className="bg-slate-400 text-white p-2 rounded disabled:opacity-50"
+                      className={` text-white p-2 rounded disabled:opacity-50 ${
+                        darkMode ? "bg-gray-600" : "bg-slate-400"
+                      }`}
                     >
                       Previous
                     </button>
                     <button
                       onClick={handleNextPage}
                       disabled={currentPage === totalPages}
-                      className="bg-slate-400 text-white p-2 disabled:opacity-50 text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200"
+                      className={` text-white p-2 disabled:opacity-50 text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+                        darkMode ? "bg-gray-600" : "bg-slate-400"
+                      }`}
                     >
                       Next
                     </button>

@@ -14,11 +14,12 @@ import Spinner from "../../../../common/Spinner";
 
 const PerformanceReviewList = () => {
   const [reviews, setReviews] = useState([]);
+  const { darkMode } = useSelector((state) => state.theme);
   const [selectedReview, setSelectedReview] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
   const { user } = useSelector((state) => state.profile);
   const { AccessToken } = useSelector((state) => state.auth);
-  const ReviewerId = user?.userId;
+  const ReviewerId = user?.employeeId;
   const [confirmationModal, setConfirmationModal] = useState(null);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -92,19 +93,19 @@ const PerformanceReviewList = () => {
   };
 
   return (
-    <div className="h-screen">
+    <div className={` h-max ${darkMode ? ' text-white' : 'bg-slate-100 text-black'}`}>
       {loading ? (
         <div className="flex flex-col items-center justify-center mt-56">
           <Spinner />
         </div>
       ) : (
-        <div className="pb-9 bg-slate-100 rounded-md mb-5">
+        <div className={`pb-9 rounded-md mb-5  mt-10 ${darkMode ? 'bg-gray-800' : 'bg-slate-100'}`}>
           <div className="p-5 flex items-center justify-between">
-            <div className="text-xl text-slate-600 font-semibold">
+            <div className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-slate-600'}`}>
               Performance Review List
             </div>
             <div>
-              <p className="text-slate-950 text-xl left-6 font-semibold">
+              <p className={`text-xl left-6 font-semibold ${darkMode ? 'text-white' : 'text-slate-950'}`}>
                 Home / Dashboard /
                 <span className="text-yellow-700">
                   &nbsp; Performance Review List
@@ -112,63 +113,69 @@ const PerformanceReviewList = () => {
               </p>
             </div>
           </div>
-          <h1 className="text-center font-semibold text-blue-900 mt-10 text-2xl">
+          <h1 className={`text-center font-semibold mt-10 text-2xl ${darkMode ? 'text-yellow-500' : 'text-blue-900'}`}>
             Performance Review List
           </h1>
           <div className="p-10">
             {reviews.length > 0 ? (
               <table className="table-auto w-full">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                  <tr className={darkMode ? 'bg-gray-600' : 'bg-gray-200'}>
+                    <th className={`py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 ${darkMode ? 'text-white' : 'text-black'} font-semibold uppercase tracking-wider text-center`}>
                       Employee Name
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 ${darkMode ? 'text-white' : 'text-black'} font-semibold uppercase tracking-wider text-center`}>
                       Employee Code
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 ${darkMode ? 'text-white' : 'text-black'} font-semibold uppercase tracking-wider text-center`}>
                       Rating
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 ${darkMode ? 'text-white' : 'text-black'} font-semibold uppercase tracking-wider text-center`}>
                       Comment
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 ${darkMode ? 'text-white' : 'text-black'} font-semibold uppercase tracking-wider text-center`}>
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {reviews.map((review) => (
+                  {reviews.map((review,index) => (
                     <tr
                       key={review.performanceId}
                       className={
-                        review.performanceId % 2 === 0
-                          ? "bg-gray-50"
-                          : "bg-white"
+                        index % 2 === 0
+                          ? `${
+                              darkMode
+                                ? "bg-gray-400 text-white"
+                                : "bg-white text-black"
+                            }`
+                          : `${
+                              darkMode
+                                ? "bg-gray-600 text-white"
+                                : "bg-gray-100 text-black"
+                            }`
                       }
                     >
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">{`${review.firstName} ${review.lastName}`}</td>
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                      <td className={`py-3 px-4 border-b ${darkMode ? 'border-gray-600 text-black font-semibold' : 'border-slate-200'} text-center`}>{`${review.firstName} ${review.lastName}`}</td>
+                      <td className={`py-3 px-4 border-b ${darkMode ? 'border-gray-600 text-black' : 'border-slate-200'} text-center`}>
                         {review.employeeCode}
                       </td>
                       <td
-                        className={`px-3 py-4 border-b border-slate-200 text-center ${getRatingColor(
-                          review.rating
-                        )}`}
+                        className={`px-3 py-4 border-b ${darkMode ? 'border-gray-600' : 'border-slate-200'} text-center ${getRatingColor(review.rating)}`}
                       >
                         {review.rating}
                       </td>
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                      <td className={`py-3 px-4 border-b ${darkMode ? 'border-gray-600 text-black' : 'border-slate-200'} text-center`}>
                         {review.comment}
                       </td>
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                      <td className={`py-3 px-4 border-b ${darkMode ? 'border-gray-600' : 'border-slate-200'} text-center`}>
                         <button
                           onClick={() => handleEditClick(review)}
                           className="mr-2 focus:outline-none"
                         >
                           <FontAwesomeIcon
                             icon={faEdit}
-                            className="text-blue-500 hover:text-blue-700"
+                            className={`${darkMode ? 'text-blue-500 hover:text-blue-400' : 'text-blue-500 hover:text-blue-700'}`}
                           />
                         </button>
                         <button
@@ -195,7 +202,7 @@ const PerformanceReviewList = () => {
                         >
                           <FontAwesomeIcon
                             icon={faTrash}
-                            className="text-red-500 hover:text-red-700"
+                            className={`${darkMode ? 'text-red-500 hover:text-red-400' : 'text-red-500 hover:text-red-700'}`}
                           />
                         </button>
                       </td>
@@ -204,14 +211,14 @@ const PerformanceReviewList = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-center text-gray-600 mt-10">
+              <p className={`text-center mt-10 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 No Added performance reviews found....
               </p>
             )}
           </div>
           {showEditForm && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-white rounded-lg p-6 w-96 ">
+              <div className={`rounded-lg p-6 w-96 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'}`}>
                 <h3 className="text-xl font-semibold mb-4">
                   Edit Performance Review
                 </h3>
@@ -219,7 +226,7 @@ const PerformanceReviewList = () => {
                   <input type="hidden" {...register("performanceId")} />
                   <div className="mb-4">
                     <label
-                      className="block text-sm font-semibold text-gray-700 mb-1"
+                      className={`block text-sm font-semibold mb-1 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}
                       htmlFor="rating"
                     >
                       Rating
@@ -227,7 +234,7 @@ const PerformanceReviewList = () => {
                     <select
                       id="rating"
                       {...register("rating", { required: true })}
-                      className="block w-full p-2 border border-gray-300 rounded"
+                      className={`block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-white text-black'} rounded`}
                     >
                       <option value="">Select Rating</option>
                       <option value="VERY_POOR">Very Poor</option>
@@ -244,7 +251,7 @@ const PerformanceReviewList = () => {
                   </div>
                   <div className="mb-4">
                     <label
-                      className="block text-sm font-semibold text-gray-700 mb-1"
+                      className={`block text-sm font-semibold mb-1 ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}
                       htmlFor="comment"
                     >
                       Comment
@@ -252,7 +259,7 @@ const PerformanceReviewList = () => {
                     <textarea
                       id="comment"
                       {...register("comment", { required: true })}
-                      className="block w-full p-2 border border-gray-300 rounded"
+                      className={`block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-white text-black'} rounded`}
                       placeholder="Enter your comment"
                     ></textarea>
                     {errors.comment && (
@@ -265,13 +272,13 @@ const PerformanceReviewList = () => {
                     <button
                       type="button"
                       onClick={() => setShowEditForm(false)}
-                      className="mr-2 bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition duration-200"
+                      className={`mr-2 px-4 py-2 rounded ${darkMode ? 'bg-gray-500 text-gray-300 hover:bg-gray-400' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'} transition duration-200`}
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                      className={`px-4 py-2 rounded ${darkMode ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-600'} transition duration-200`}
                     >
                       Edit
                     </button>

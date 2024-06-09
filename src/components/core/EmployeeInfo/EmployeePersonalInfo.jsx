@@ -57,15 +57,6 @@ function EmployeePersonalInfo({ user }) {
             <p className="text-xl text-red-950 font-semibold">
               Personal Details
             </p>
-            <div className="flex items-center gap-x-3">
-              <button
-                type="submit"
-                data-testid="edit-button"
-                className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${"bg-yellow-500 text-black"} py-1 px-5 flex items-center`}
-              >
-                Edit <FiEdit className="ml-2" />
-              </button>
-            </div>
           </div>
           <div className="grid grid-cols-2 place-content-between gap-4">
             {personalDetails.map((element, index) => (

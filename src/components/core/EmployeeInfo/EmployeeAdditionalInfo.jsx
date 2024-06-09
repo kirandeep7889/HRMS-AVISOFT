@@ -26,7 +26,7 @@ const EmployeeAdditionalInfo = ({ user }) => {
   const additionalDetails = [
     {
       name: "Department",
-      value: user?.department?.department || (
+      value: user?.department || (
         <p className="text-pink-600">Add Department</p>
       ),
     },
@@ -80,15 +80,6 @@ const EmployeeAdditionalInfo = ({ user }) => {
           <p className="text-xl text-red-950 font-semibold">
             Additional Details
           </p>
-          <div className="flex items-center gap-x-3">
-            <button
-              type="submit"
-              className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${"bg-yellow-500 text-black"} py-1 px-5 flex items-center`}
-              onClick={() => handleEdit(user)}
-            >
-              Edit <FiEdit className="ml-2" />
-            </button>
-          </div>
         </div>
         <div className="grid grid-cols-2 place-content-between gap-4">
           {additionalDetails.map((element, index) => (

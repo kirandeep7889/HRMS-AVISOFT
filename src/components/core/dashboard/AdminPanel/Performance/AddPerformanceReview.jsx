@@ -20,11 +20,13 @@ const AddPerformanceReview = () => {
   const [loading, setLoading] = useState(false);
   const { AccessToken } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
+  const { darkMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const managerId = user?.userId;
 
+  console.log(employees)
   const {
     register,
     handleSubmit,
@@ -69,7 +71,7 @@ const AddPerformanceReview = () => {
   };
 
   const onSubmit = async (data) => {
-    const employeeId = currentEmployee?.userId;
+    const employeeId = currentEmployee?.employeeId;
     const res = await dispatch(
       addPerformanceReview(managerId, employeeId, data, AccessToken, navigate)
     );
@@ -80,7 +82,7 @@ const AddPerformanceReview = () => {
   const indexOfLastEmployee = currentPage * employeesPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
   const currentEmployees = employees
-    .filter((employee) => {
+    ?.filter((employee) => {
       if (searchTerm === "") {
         return true;
       } else {
@@ -95,30 +97,30 @@ const AddPerformanceReview = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="h-screen">
+    <div className={`h-max mb-4 ${darkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
       {loading ? (
         <div className="absolute grid place-content-center h-[70%] w-[85%]">
           <Spinner />
         </div>
       ) : (
-        <div className="pb-9 bg-slate-100 rounded-md mb-5">
+        <div className={`pb-9 mb-5 mt-10 shadow-lg ${darkMode ? 'bg-slate-800' : 'bg-slate-100'} rounded-md mb-5`}>
           <div className="p-5 flex items-center justify-between">
-            <div className="text-xl text-slate-600 font-semibold">
+            <div className={`text-xl ${darkMode ? 'text-white' : 'text-slate-600'} font-semibold`}>
               Add Performance Review
             </div>
             <div>
-              <p className="text-slate-950 text-xl left-6 font-semibold">
+              <p className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-slate-950'}`}>
                 Home / Dashboard /
                 <span className="text-yellow-700">Add Performance Review</span>
               </p>
             </div>
           </div>
-          <h1 className="text-center font-semibold text-blue-900 mt-10 text-2xl">
+          <h1 className={`text-center font-semibold ${darkMode ? 'text-white' : 'text-blue-900'} mt-10 text-2xl`}>
             Add Performance Review
           </h1>
           <div className="p-10">
-            {employees.length === 0 ? (
-              <div className="text-center mt-24 text-gray-600">
+            {employees?.length === 0 ? (
+              <div className={`text-center mt-24 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 No employees available for Adding Review...
               </div>
             ) : (
@@ -128,10 +130,10 @@ const AddPerformanceReview = () => {
                   placeholder="Search by name"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="border border-gray-300 rounded p-2 mb-4"
+                  className={`border ${darkMode ? 'border-gray-500 bg-gray-700 text-white' : 'border-gray-300'} rounded p-2 mb-4`}
                 />
-                <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
-                  <thead className="bg-slate-200">
+                <table className={`min-w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-white'} rounded-lg overflow-hidden shadow-lg`}>
+                  <thead className={`${darkMode ? 'bg-gray-600' : 'bg-slate-200'}`}>
                     <tr>
                       <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
                         Select
@@ -160,7 +162,7 @@ const AddPerformanceReview = () => {
                     {currentEmployees.map((employee) => (
                       <tr
                         key={employee.userId}
-                        className="odd:bg-white even:bg-slate-100"
+                        className={darkMode ? 'odd:bg-gray-700 even:bg-gray-600' : 'odd:bg-white even:bg-slate-100'}
                       >
                         <td className="py-3 px-4 border-b border-slate-200 text-center">
                           <input
@@ -227,14 +229,14 @@ const AddPerformanceReview = () => {
           </div>
           {showForm && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-white rounded-lg p-6 w-96">
+              <div className={`rounded-lg p-6 w-96 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white'}`}>
                 <h3 className="text-xl font-semibold mb-4">
                   Add Performance Review
                 </h3>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-4">
                     <label
-                      className="block text-sm font-semibold text-gray-700 mb-1"
+                      className="block text-sm font-semibold mb-1"
                       htmlFor="rating"
                     >
                       Rating
@@ -242,7 +244,7 @@ const AddPerformanceReview = () => {
                     <select
                       id="rating"
                       {...register("rating", { required: true })}
-                      className="block w-full p-2 border border-gray-300 rounded"
+                      className={`block w-full p-2 border ${darkMode ? 'border-gray-500 bg-gray-700 text-white' : 'border-gray-300'} rounded`}
                     >
                       <option value="">Select Rating</option>
                       <option value="VERY_POOR">Very Poor</option>
@@ -259,7 +261,7 @@ const AddPerformanceReview = () => {
                   </div>
                   <div className="mb-4">
                     <label
-                      className="block text-sm font-semibold text-gray-700 mb-1"
+                      className="block text-sm font-semibold mb-1"
                       htmlFor="comment"
                     >
                       Comment
@@ -267,7 +269,7 @@ const AddPerformanceReview = () => {
                     <textarea
                       id="comment"
                       {...register("comment", { required: true })}
-                      className="block w-full p-2 border border-gray-300 rounded"
+                      className={`block w-full p-2 border ${darkMode ? 'border-gray-500 bg-gray-700 text-white' : 'border-gray-300'} rounded`}
                       placeholder="Enter your comment"
                     ></textarea>
                     {errors.comment && (

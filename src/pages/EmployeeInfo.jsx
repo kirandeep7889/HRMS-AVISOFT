@@ -44,7 +44,7 @@ fetchEmployee();
 console.log(userData)
 
   return (
-    <div>
+    <div className=' h-full'>
       {
                loading &&   <div className=' absolute grid place-content-center h-screen w-screen'><Spinner/></div>
       }

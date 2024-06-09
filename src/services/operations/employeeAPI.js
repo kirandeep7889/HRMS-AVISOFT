@@ -38,7 +38,7 @@ export function addEmployee(employeeData) {
           Authorization: `Bearer ${AccessToken}`,
       });
         console.log(response);
-        dispatch(addEmployees(response?.data?.newUser?.userId)); 
+        dispatch(addEmployees(response?.data?.newUser?.employeeId)); 
         toast.success("Employee Created Successfully");
         dispatch(setStep(2))
       } catch (error) {

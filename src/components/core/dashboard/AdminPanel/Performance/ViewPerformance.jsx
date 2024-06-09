@@ -10,7 +10,8 @@ const ViewPerformance = () => {
   const [loading, setLoading] = useState(true);
   const { user } = useSelector((state) => state.profile);
   const { AccessToken } = useSelector((state) => state.auth);
-  const employeeId = user?.userId;
+  const { darkMode } = useSelector((state) => state.theme);
+  const employeeId = user?.employeeId;
 
   useEffect(() => {
     const employeeReviews = async () => {
@@ -58,19 +59,19 @@ const ViewPerformance = () => {
   };
 
   return (
-    <div className="h-screen">
+    <div className={`h-max ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       {loading ? (
         <div className="absolute grid place-content-center h-[70%] w-[85%]">
           <Spinner />
         </div>
       ) : (
-        <div className="pb-9 bg-slate-100 shadow-md rounded-md mb-5">
+        <div className={`pb-9 shadow-md rounded-md mb-5 mt-10 ${darkMode ? 'bg-gray-800' : 'bg-slate-100'}`}>
           <div className="p-5 flex items-center justify-between">
-            <div className="text-xl text-slate-600 font-semibold">
+            <div className={`text-xl font-semibold ${darkMode ? 'text-gray-300' : 'text-slate-600'}`}>
               View Performance Review
             </div>
             <div>
-              <p className="text-slate-950 text-xl left-6 font-semibold">
+              <p className={`text-xl left-6 font-semibold ${darkMode ? 'text-gray-300' : 'text-slate-950'}`}>
                 Home / Dashboard /
                 <span className="text-yellow-700">
                   &nbsp; View Performance Review
@@ -84,43 +85,48 @@ const ViewPerformance = () => {
             ) : (
               <table className="table-auto w-full">
                 <thead>
-                  <tr className="bg-gray-200">
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                  <tr className={`${darkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
+                    <th className={`py-3 px-4 border-b-2 text-sm leading-4 font-semibold uppercase tracking-wider text-center ${darkMode ? 'border-gray-600 text-gray-300' : 'border-slate-300 text-black'}`}>
                       Reviewed By
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 text-sm leading-4 font-semibold uppercase tracking-wider text-center ${darkMode ? 'border-gray-600 text-gray-300' : 'border-slate-300 text-black'}`}>
                       Rating
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 text-sm leading-4 font-semibold uppercase tracking-wider text-center ${darkMode ? 'border-gray-600 text-gray-300' : 'border-slate-300 text-black'}`}>
                       Comment
                     </th>
-                    <th className="py-3 px-4 border-b-2 border-slate-300 text-sm leading-4 text-black font-semibold uppercase tracking-wider text-center">
+                    <th className={`py-3 px-4 border-b-2 text-sm leading-4 font-semibold uppercase tracking-wider text-center ${darkMode ? 'border-gray-600 text-gray-300' : 'border-slate-300 text-black'}`}>
                       Review Date
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {reviews.map((review) => (
+                  {reviews.map((review,index) => (
                     <tr
                       key={review.performanceId}
                       className={
-                        review.performanceId % 2 === 0
-                          ? "bg-gray-50"
-                          : "bg-white"
-                      }
-                    >
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">{`${review.reviewerFirstName} ${review.reviewerLastName}`}</td>
+                        index % 2 === 0
+                          ? `${
+                              darkMode
+                                ? "bg-gray-400 text-white"
+                                : "bg-white text-black"
+                            }`
+                          : `${
+                              darkMode
+                                ? "bg-gray-600 text-white"
+                                : "bg-gray-100 text-black"
+                            }`
+                      }                    >
+                      <td className={`py-3 px-4 border-b text-center ${darkMode ? 'border-gray-600 text-black font-semibold' : 'border-slate-200'}`}>{`${review.reviewerFirstName} ${review.reviewerLastName}`}</td>
                       <td
-                        className={`px-3 py-4 border-b border-slate-200 text-center ${getRatingColor(
-                          review.rating
-                        )}`}
+                        className={`px-3 py-4 border-b text-center ${getRatingColor(review.rating)} ${darkMode ? 'border-gray-600 ' : 'border-slate-200'}`}
                       >
                         {review.rating}
                       </td>
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                      <td className={`py-3 px-4 border-b text-center ${darkMode ? 'border-gray-600 text-black' : 'border-slate-200'}`}>
                         {review.comment}
                       </td>
-                      <td className="py-3 px-4 border-b border-slate-200 text-center">
+                      <td className={`py-3 px-4 border-b text-center ${darkMode ? 'border-gray-600 text-black' : 'border-slate-200'}`}>
                         {formatDate(review.reviewDate)}
                       </td>
                     </tr>

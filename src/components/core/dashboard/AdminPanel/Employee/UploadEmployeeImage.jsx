@@ -13,11 +13,11 @@ const UploadEmployeeImage = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [existingImage, setExistingImage] = useState(null);
     const inputRef = useRef(null);
-    const {employees}=useSelector((state)=>state.employee)
+    const { darkMode } = useSelector((state) => state.theme);
+    const { employees } = useSelector((state) => state.employee);
     const preEditedEmployeeDetails = useSelector((state) => state.editing.preEditedEmployeeDetails);
     const isEditing = useSelector((state) => state.editing.isEditing);
 
-    console.log(employees)
     useEffect(() => {
         if (isEditing && preEditedEmployeeDetails && preEditedEmployeeDetails?.profileImage) {
             setExistingImage(preEditedEmployeeDetails?.profileImage);
@@ -40,7 +40,7 @@ const UploadEmployeeImage = () => {
             setLoading(true);
             const formData = new FormData();
             formData.append('file', selectedImage);
-            const employeeId = isEditing ? preEditedEmployeeDetails?.employeeId : employees[0]  ;
+            const employeeId = isEditing ? preEditedEmployeeDetails?.employeeId : employees[0];
             await dispatch(uploadEmployeeImage(employeeId, AccessToken, formData));
             setLoading(false);
         } catch (err) {
@@ -50,7 +50,7 @@ const UploadEmployeeImage = () => {
     };
 
     return (
-        <div className='p-5'>
+        <div className={`p-5 `}>
             <div className='flex gap-5 w-full items-center justify-start rounded-lg'>
                 <img
                     src={selectedImage ? URL.createObjectURL(selectedImage) : existingImage || defaultImage}
@@ -58,7 +58,7 @@ const UploadEmployeeImage = () => {
                     className='aspect-square rounded-full object-cover h-20'
                 />
                 <div className='w-[80%] flex gap-4 flex-col'>
-                    <p className='font-normal text-lg text-zinc-800'>
+                    <p className={`font-normal text-lg ${darkMode ? 'text-white' : 'text-zinc-800'}`}>
                         {isEditing ? 'Update Employee Profile Picture' : 'Upload Employee Profile Picture'}
                     </p>
                     <div className='flex gap-4'>
@@ -74,7 +74,9 @@ const UploadEmployeeImage = () => {
                                 />
                                 <button
                                     onClick={() => inputRef.current.click()}
-                                    className='text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 bg-gray-900 text-white py-1 px-5'
+                                    className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+                                        darkMode ? ' bg-slate-400 text-black' : 'bg-gray-900 text-white'
+                                    } py-1 px-5`}
                                     disabled={loading}
                                 >
                                     Select
@@ -83,7 +85,7 @@ const UploadEmployeeImage = () => {
                         )}
                         <div
                             className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
-                                'bg-yellow-500 text-black'
+                                darkMode ? 'bg-yellow-400 text-black' : 'bg-yellow-500 text-black'
                             } py-1 px-5`}
                             onClick={handleSubmit}
                             style={{ cursor: loading ? 'not-allowed' : 'pointer' }}

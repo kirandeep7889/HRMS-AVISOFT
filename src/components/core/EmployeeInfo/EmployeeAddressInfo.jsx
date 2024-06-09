@@ -44,16 +44,6 @@ const EmployeeAddressInfo = ({ user }) => {
       <div className='flex gap-6 w-full flex-col p-8 rounded-lg'>
         <div className='flex justify-between items-center'>
           <p className='text-xl text-red-950 font-semibold'>Address Details</p>
-          <div className='flex items-center gap-x-3'>
-            <button
-              type='submit'
-              className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
-                 'bg-yellow-500 text-black'
-              } py-1 px-5 flex items-center`}
-            >
-              Edit <FiEdit className='ml-2' />
-            </button>
-          </div>
         </div>
         <div className='grid grid-cols-2 place-content-between gap-4'>
           {addressDetails.map((element, index) => (
