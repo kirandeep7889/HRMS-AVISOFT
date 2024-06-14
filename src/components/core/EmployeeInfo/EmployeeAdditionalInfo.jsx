@@ -3,25 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { formattedDate } from "../../../utils/dateFormatter";
-import {
-  setEditing,
-  setPreEditedEmployeeDetails,
-} from "../../../slices/editingSlice";
-import { setStep } from "../../../slices/employeeSlice";
-
 const EmployeeAdditionalInfo = ({ user }) => {
-  const isEditing = useSelector((state) => state.editing.isEditing);
   const navigate = useNavigate();
-  const { loading } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  console.log(user);
 
-  const handleEdit = (user) => {
-    dispatch(setEditing(true));
-    dispatch(setPreEditedEmployeeDetails(user));
-    navigate("/employee/create-update-employee", { state: { employee: user } });
-    dispatch(setStep(2));
-  };
+
 
   const additionalDetails = [
     {

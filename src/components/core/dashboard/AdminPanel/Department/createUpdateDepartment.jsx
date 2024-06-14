@@ -58,7 +58,7 @@ const CreateUpdateDepartment = () => {
   const handleSearch = async (searchTerm) => {
     try {
       const response = await dispatch(EmployeeSearch(AccessToken, searchTerm));
-      const data = response.data;
+      const data = response?.data;
       if (Array.isArray(data) && data.length > 0) {
         setSearchResults(data[0]);
         setShowRadio(true);

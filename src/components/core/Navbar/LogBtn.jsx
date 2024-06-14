@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function LogBtn({ link, text }) {
-  const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
 
   return (
     <Link to={link}>

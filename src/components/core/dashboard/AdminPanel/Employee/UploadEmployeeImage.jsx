@@ -13,7 +13,7 @@ const UploadEmployeeImage = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [existingImage, setExistingImage] = useState(null);
     const inputRef = useRef(null);
-    const { darkMode } = useSelector((state) => state.theme);
+    const darkMode = useSelector((state) => state.theme?.darkMode) || false;
     const { employees } = useSelector((state) => state.employee);
     const preEditedEmployeeDetails = useSelector((state) => state.editing.preEditedEmployeeDetails);
     const isEditing = useSelector((state) => state.editing.isEditing);

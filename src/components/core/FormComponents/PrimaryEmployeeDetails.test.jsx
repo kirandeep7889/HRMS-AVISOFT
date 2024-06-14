@@ -27,7 +27,7 @@ describe('PrimaryEmployeeDetails component', () => {
   it('renders submit button with correct inner text', () => {
     renderWithContext(<PrimaryEmployeeDetails />);
 
-    expect(screen.getByText('Submit')).toBeInTheDocument();
+    expect(screen.getByText('Add')).toBeInTheDocument();
   });
 
   it('renders all form fields', () => {

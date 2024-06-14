@@ -16,6 +16,10 @@ const store = mockStore({
   auth: { AccessToken: 'test-token' },
   employee: { employees: ['test-employee-id'] },
   editing: { isEditing: false, preEditedEmployeeDetails: null },
+  theme: {
+    darkMode: false, 
+  },
+
 });
 
 describe('UploadEmployeeImage component', () => {

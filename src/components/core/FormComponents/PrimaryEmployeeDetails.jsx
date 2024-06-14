@@ -10,7 +10,7 @@ const PrimaryEmployeeDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { AccessToken } = useSelector((state) => state.auth);
-  const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
 
 
   const onSubmit = async (data) => {
@@ -66,7 +66,7 @@ const PrimaryEmployeeDetails = () => {
           </select>
         </div>
         <div className='flex items-center gap-x-3 mt-5'>
-                            <button type="submit" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+                            <button type="submit" data-testid="submit-button" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
                                 'bg-yellow-500 text-black'
                             } py-1 px-5 flex items-center`}>
                                  <FaPlus className="mr-2"/>Add

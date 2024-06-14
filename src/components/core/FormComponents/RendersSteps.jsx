@@ -2,14 +2,14 @@ import React from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PrimaryEmployeeDetails from './PrimaryEmployeeDetails';
-import EmployeePersonalInfo from './EmployeePersonalInfo';
 import EmployeeAdditionalDetails from './EmployeeAdditionalDetails';
+import EmployeePersonalInfo from './EmployeePersonalInfo';
+import PrimaryEmployeeDetails from './PrimaryEmployeeDetails';
 
 function RenderSteps() {
   const { step } = useSelector((state) => state.employee);
   const navigate = useNavigate();
-  const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
 
   const steps = [
     {

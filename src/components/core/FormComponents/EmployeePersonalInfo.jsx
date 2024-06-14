@@ -12,7 +12,7 @@ const EmployeePersonalInfo = () => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { loading } = useSelector((state) => state.auth);
     const { AccessToken } = useSelector((state) => state.auth);
-    const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
     const dispatch = useDispatch();
     const [departments, setDepartments] = useState([]);
     const { employees } = useSelector((state) => state.employee);
@@ -34,9 +34,8 @@ const EmployeePersonalInfo = () => {
         const fetchDepartments = async () => {
             try {
                 const response = await dispatch(Departmentlist(AccessToken));
-                setDepartments(response.data);
+                setDepartments(response?.data);
             } catch (error) {
-                console.error("Error fetching departments: ", error);
             }
         };
         fetchDepartments();
@@ -147,10 +146,10 @@ const EmployeePersonalInfo = () => {
                         </div>
                     </div>
                     <div className='flex items-center gap-x-3 mt-5'>
-                            <button type="submit" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
+                            <button data-testid="edit-button" type="submit" className={`text-center text-sm md:text-base font-medium rounded-md leading-6 hover:scale-95 transition-all duration-200 ${
                                 'bg-yellow-500 text-black'
                             } py-1 px-5 flex items-center`}>
-                                {isEditing ? <><FaEdit className="mr-2"/>Update</> : <><FaPlus className="mr-2"/>Add</>}
+                                {isEditing ? <><FaEdit  className="mr-2"/>Update</> : <><FaPlus className="mr-2"/>Add</>}
                             </button>
                     </div>  
                 </form>

@@ -16,6 +16,9 @@ const store = mockStore({
   employee: { employees: ['test-employee-id'] },
   editing: { isEditing: false, preEditedEmployeeDetails: null },
   department: { departments: [] },
+  theme: {
+    darkMode: false, 
+  },
   profile: { user: { firstName: 'John' } }
 });
 

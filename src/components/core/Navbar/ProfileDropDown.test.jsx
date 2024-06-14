@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
@@ -17,10 +18,13 @@ describe('ProfileDropDown', () => {
         user: {
           firstName: 'kirandeep',
           lastName: 'Singh',
-          image: 'https://api.dicebear.com/5.x/initials/svg?seed=kirandeep Singh',
-          roles: [{ role: 'Admin' }]
-        }
-      }
+          profileImage: 'https://api.dicebear.com/5.x/initials/svg?seed=kirandeep Singh',
+          roles: [{ role: 'Admin' }],
+        },
+      },
+      theme: {
+        darkMode: false, 
+      },
     });
   });
 
@@ -89,5 +93,4 @@ describe('ProfileDropDown', () => {
       expect(screen.getByText('You Will be Logged Out of Your Account')).toBeInTheDocument();
     });
   });
-
 });

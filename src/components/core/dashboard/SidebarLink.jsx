@@ -6,7 +6,7 @@ import { matchPath, NavLink, useLocation } from "react-router-dom";
 export default function SidebarLink({ link }) {
   const Icon = Icons[link.icon];
   const location = useLocation();
-  const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
   const [showChildren, setShowChildren] = useState(false);
 
   const toggleChildren = () => {

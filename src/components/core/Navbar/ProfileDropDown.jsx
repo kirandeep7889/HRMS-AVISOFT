@@ -8,7 +8,7 @@ import { logout } from "../../../services/operations/authAPI";
 
 const ProfileDropDown = () => {
   const { user } = useSelector((state) => state.profile);
-  const { darkMode } = useSelector((state) => state.theme);
+  const darkMode = useSelector((state) => state.theme?.darkMode) || false;
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const [confirmationModal, setConfirmationModal] = useState(null);

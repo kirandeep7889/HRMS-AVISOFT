@@ -17,11 +17,7 @@ export const Departmentlist = (AccessToken) => {
         null, 
         { Authorization: `Bearer ${AccessToken}` } 
       );
-
-      console.log("apiConnector response: ", response);
-
-
-        console.log(response)
+      
         return response;
       } catch (err) {
         console.log(err);

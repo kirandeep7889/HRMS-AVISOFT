@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import CreateUpdateDepartment from './createUpdateDepartment';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -37,9 +37,11 @@ describe('CreateUpdateDepartment Component', () => {
     expect(screen.getByLabelText('Add Manager*')).toBeInTheDocument();
 
     // Search for manager
-    fireEvent.change(screen.getByTestId('employeeSearch'), { target: { value: 'John Doe' } });
+    await act(async () => {
+      fireEvent.change(screen.getByTestId('employeeSearch'), { target: { value: 'John Doe' } });
+    });
 
-
+    // Add your assertions for the search results here
   });
 });
 

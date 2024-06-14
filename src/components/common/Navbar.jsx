@@ -83,7 +83,9 @@ const NavBar = () => {
                 <LogBtn link={"/login"} text={"Log In"} />
               </div>
             ) : (
-              <ProfileDropDown />
+              <div  data-testid="profile-dropdown">
+               <ProfileDropDown />
+              </div>
             )}
           </div>
         </div>

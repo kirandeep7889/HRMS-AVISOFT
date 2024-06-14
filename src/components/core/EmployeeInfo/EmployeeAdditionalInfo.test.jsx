@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 
 test('renders additional details correctly', () => {
   const user = {
-    department: { department: 'Engineering' },
+    department: 'Engineering',
     position: 'Software Engineer',
     employeeCode: 'EMP123',
     roles: [{ role: 'Developer' }],

@@ -142,8 +142,8 @@ const DepartmentList = () => {
                     >
                       <td className="px-6 py-4">{department.department}</td>
                       <td className="px-6 py-4">
-                        {department.manager
-                          ? `${department.manager.firstName} ${department.manager.lastName}`
+                        {department?.managerId
+                          ? `${department.managerFirstName} ${department.managerLastName}`
                           : "N/A"}
                       </td>
                       <td className="px-6 py-4">{department.description}</td>
@@ -167,7 +167,7 @@ const DepartmentList = () => {
                               btn1Text: "Delete Department",
                               btn2Text: "Cancel",
                               btn1Handler: async () => {
-                                await dispatch(
+                                 dispatch(
                                   deleteDepartment(
                                     AccessToken,
                                     department.departmentId

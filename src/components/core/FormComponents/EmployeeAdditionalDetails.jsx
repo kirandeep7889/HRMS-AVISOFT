@@ -19,7 +19,7 @@ const EmployeeAdditionalDetails = () => {
 
     const { AccessToken } = useSelector((state) => state.auth);
     const { employees } = useSelector((state) => state.employee);
-    const { darkMode } = useSelector((state) => state.theme);
+    const darkMode = useSelector((state) => state.theme?.darkMode) || false;
     const isEditing = useSelector((state) => state.editing.isEditing);
     const preEditedEmployeeDetails = useSelector((state) => state.editing.preEditedEmployeeDetails);
     const editedEmployeeId = preEditedEmployeeDetails?.employeeId;
